@@ -539,6 +539,19 @@ export default function Explore() {
             );
           })}
 
+          {/* --- Browse all restaurants CTA --- */}
+          <View style={styles.bottomButtonSpacer} />
+          <TouchableOpacity
+            style={styles.fullMenuButton}
+            onPress={() => router.push("../../restaurant")}
+            accessibilityRole="button"
+            accessibilityLabel="Browse all restaurants"
+          >
+            <Ionicons name="restaurant" size={20} color="#FFFFFF" />
+            <Text style={styles.fullMenuButtonText}>Browse all restaurants</Text>
+            <Ionicons name="chevron-forward" size={18} color="#FFFFFF" />
+          </TouchableOpacity>
+
         </View>
       </View>
     </ScrollView>
@@ -579,4 +592,28 @@ const styles = StyleSheet.create({
   expandedMealText: { fontSize: 14, fontWeight: "600", color: "#A6192E" },
   expandedPriceText: { fontSize: 13, fontWeight: "500", color: "#374151" },
   expandedMacroText: { fontSize: 12, color: "#555" },
+
+  /* NEW: bottom CTA styles */
+  bottomButtonSpacer: { height: 8 },
+  fullMenuButton: {
+    marginTop: 8,
+    backgroundColor: "#A6192E",
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
+  fullMenuButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "700",
+  },
 });
