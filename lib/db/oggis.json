@@ -40,42 +40,42 @@
       "fat_g": 70
     },
     {
-      "name": "Chicago Style Burger (½ lb Angus)*",
+      "name": "Pepperoni (10\")",
       "price": 13.50,
       "calories_kcal": 1100,
       "protein_g": 50,
       "fat_g": 60
     },
     {
-      "name": "Chicken Tequila Pasta (Spinach Fettuccine)",
-      "price": 24.20,
+      "name": "Pesto Mia (10\")",
+      "price": 14.00,
       "calories_kcal": 1420,
       "protein_g": 48,
       "fat_g": 56
     },
     {
-      "name": "Quinoa, Arugula & Avocado Salad",
-      "price": 13.00,
-      "calories_kcal": 620,
-      "protein_g": 15,
-      "fat_g": 32
+      "name": "Oggi's Special (10\")",
+      "price": 15.00,
+      "calories_kcal": 1200,
+      "protein_g": 35,
+      "fat_g": 42
     },
     {
-      "name": "Blackened Santa Fe Chicken Salad",
-      "price": 13.00,
+      "name": "Mediterranean Delight Salad",
+      "price": 14.00,
       "calories_kcal": 750,
       "protein_g": 45,
       "fat_g": 38
     },
     {
-      "name": "Beer-Battered Fish & Chips",
-      "price": 12.25,
-      "calories_kcal": 1250,
-      "protein_g": 55,
-      "fat_g": 65
+      "name": "Oggi's Stixx",
+      "price": 7.00,
+      "calories_kcal": 760,
+      "protein_g": 15,
+      "fat_g": 30
     },
     {
-      "name": "Lemon Pepper-Crusted Tilapia with Vegetables",
+      "name": "Wings",
       "price": 13.95,
       "calories_kcal": 910,
       "protein_g": 42,
