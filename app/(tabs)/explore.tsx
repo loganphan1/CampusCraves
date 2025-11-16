@@ -1,93 +1,168 @@
-import React from "react";
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React, { useState, useRef } from "react";
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, Animated, Easing } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function Explore() {
-  const logoImage = require("../../assets/images/HalalShack.png");
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [boxesOrder, setBoxesOrder] = useState([
+    { id: 1, text: "Halal Shack", meal: "Chicken Bowl", price: 12.5, logo: require("../../assets/images/HalalShack.png"), protein: 42, calories: 600, fat: 18 },
+    { id: 2, text: "Panda Express", meal: "Orange Chicken Plate", price: 11.0, logo: require("../../assets/images/PandaExpress.png"), protein: 36, calories: 700, fat: 20 },
+    { id: 3, text: "Broken Yolk Cafe", meal: "Protein Scramble", price: 10.0, logo: require("../../assets/images/BroYo.png"), protein: 28, calories: 450, fat: 16 },
+    { id: 4, text: "Jamals Chicken", meal: "3pc Chicken Strips", price: 9.5, logo: require("../../assets/images/JamalsChicken.png"), protein: 48, calories: 550, fat: 22 },
+    { id: 5, text: "Subway", meal: "Turkey Sandwich", price: 8.5, logo: require("../../assets/images/Subway.png"), protein: 32, calories: 400, fat: 12 },
+  ]);
 
-  const boxes = [
-    { id: 1, text: "Halal Shack", logo: require("../../assets/images/HalalShack.png") },
-    { id: 2, text: "Panda Express", logo: require("../../assets/images/PandaExpress.png") },
-    { id: 3, text: "Broken Yolk Cafe", logo: require("../../assets/images/BroYo.png") },
-    { id: 4, text: "Jamals Chicken", logo: require("../../assets/images/JamalsChicken.png") },
-    { id: 5, text: "Subway", logo: require("../../assets/images/Subway.png") },
-  ];
+  const spinAnim = useRef(new Animated.Value(0)).current;
+
+  const initialBalance = 20.0;
+  const initialCalories = 1500;
+  const initialProtein = 100;
+  const initialFat = 70;
+
+  const animValues = useRef(
+    boxesOrder.reduce((acc, box) => {
+      acc[box.id] = new Animated.Value(1);
+      return acc;
+    }, {} as Record<number, Animated.Value>)
+  ).current;
+
+  const toggleItem = (id: number) => {
+    Animated.sequence([
+      Animated.timing(animValues[id], { toValue: 1.4, duration: 150, useNativeDriver: true }),
+      Animated.timing(animValues[id], { toValue: 1, duration: 150, useNativeDriver: true }),
+    ]).start();
+
+    setSelectedItems(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const shuffleBoxes = () => {
+    spinAnim.setValue(0);
+    Animated.timing(spinAnim, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+
+    const shuffled = [...boxesOrder].sort(() => Math.random() - 0.5);
+    setBoxesOrder(shuffled);
+    setSelectedItems([]);
+  };
+
+  const spin = spinAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
+  const remainingBalance = selectedItems.reduce((acc, id) => {
+    const box = boxesOrder.find(b => b.id === id);
+    return acc - (box?.price || 0);
+  }, initialBalance);
+
+  const remainingCalories = selectedItems.reduce((acc, id) => {
+    const box = boxesOrder.find(b => b.id === id);
+    return acc - (box?.calories || 0);
+  }, initialCalories);
+
+  const remainingProtein = selectedItems.reduce((acc, id) => {
+    const box = boxesOrder.find(b => b.id === id);
+    return acc - (box?.protein || 0);
+  }, initialProtein);
+
+  const remainingFat = selectedItems.reduce((acc, id) => {
+    const box = boxesOrder.find(b => b.id === id);
+    return acc - (box?.fat || 0);
+  }, initialFat);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#a6192e" }}>
-      <Text style={styles.header}>Your Results</Text>
-      <Text style={styles.information}>
-        Remaining balance: $20.00 - Remaining Macros: 1500 calories, 100 grams protein
-      </Text>
-      <View style={{ height: 5, width: "100%", backgroundColor: "black" }}></View>
+    <ScrollView style={{ flex: 1, backgroundColor: "#a6192e" }}>
+      <View style={styles.contentWrapper}>
+        <View style={styles.card}>
 
-      <ScrollView contentContainerStyle={styles.container}>
-        {boxes.map((box) => (
-          <View key={box.id} style={styles.box}>
-            <Image source={box.logo} style={styles.logo} resizeMode="contain"/>
-
-            <Text style={styles.boxText}>{box.text}</Text>
-
-            <TouchableOpacity
-              onPress={() => console.log(`Plus pressed on ${box.text}`)}
-              style={styles.cartButton}
-            >
-              <Ionicons name="cart" size={28} color="#a6192e" />
+          {/* Header Row */}
+          <View style={styles.headerRow}>
+            <Text style={styles.header}>Your Results</Text>
+            <TouchableOpacity style={styles.cartCircle} onPress={shuffleBoxes}>
+              <Animated.View style={{ transform: [{ rotate: spin }] }}>
+                <Ionicons name="refresh" size={28} color="#A6192E" />
+              </Animated.View>
             </TouchableOpacity>
           </View>
-        ))}
-      </ScrollView>
-    </View>
+
+          {/* Top blocks */}
+          <View style={styles.topBlocks}>
+            <View style={styles.block}>
+              <Text style={styles.blockLabel}>Balance</Text>
+              <Text style={[styles.blockValue, remainingBalance < 0 && { color: "red" }]}>${remainingBalance.toFixed(2)}</Text>
+            </View>
+            <View style={styles.block}>
+              <Text style={styles.blockLabel}>Calories</Text>
+              <Text style={[styles.blockValue, remainingCalories < 0 && { color: "red" }]}>{remainingCalories}</Text>
+            </View>
+            <View style={styles.block}>
+              <Text style={styles.blockLabel}>Protein</Text>
+              <Text style={[styles.blockValue, remainingProtein < 0 && { color: "red" }]}>{remainingProtein}g</Text>
+            </View>
+            <View style={styles.block}>
+              <Text style={styles.blockLabel}>Fat</Text>
+              <Text style={[styles.blockValue, remainingFat < 0 && { color: "red" }]}>{remainingFat}g</Text>
+            </View>
+          </View>
+
+          <View style={styles.divider} />
+
+          {boxesOrder.map((box) => (
+            <View key={box.id} style={styles.row}>
+              <Image source={box.logo} style={styles.logo} resizeMode="contain" />
+
+              <View style={{ flex: 1 }}>
+                <View style={styles.mealPriceRow}>
+                  <Text style={styles.mealText}>{box.meal}</Text>
+                  <Text style={styles.priceText}>${box.price.toFixed(2)}</Text>
+                </View>
+                <Text style={styles.rowText}>{box.text}</Text>
+
+                <View style={styles.macroRow}>
+                  <Text style={styles.macroText}>Calories: {box.calories}</Text>
+                  <Text style={styles.macroText}>Protein: {box.protein}g</Text>
+                  <Text style={styles.macroText}>Fat: {box.fat}g</Text>
+                </View>
+              </View>
+
+              <TouchableOpacity style={styles.plusCircle} onPress={() => toggleItem(box.id)}>
+                <Animated.View style={{ transform: [{ scale: animValues[box.id] }] }}>
+                  <Ionicons name={selectedItems.includes(box.id) ? "checkmark-outline" : "add-outline"} size={20} color="#A6192E" />
+                </Animated.View>
+              </TouchableOpacity>
+            </View>
+          ))}
+
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 30,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    backgroundColor: "#a6192e",
-    paddingBottom: 30,
-  },
-  header: {
-    paddingTop: 10,
-    textAlign: "center",
-    color: "white",
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  information: {
-    textAlign: "center",
-    color: "white",
-    fontSize: 25,
-    fontWeight: "bold",
-    paddingBottom: 10,
-  },
-  box: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 10,
-    borderRadius: 10,
-    borderWidth: 3,
-    borderColor: "#000",
-    padding: 10,
-    width: "90%",
-    height: 100,
-    backgroundColor: "white",
-  },
-  logo: {
-    width: 100,
-    height: "80%",
-    // borderRadius: 25,
-    marginRight: 15,
-  },
-  boxText: {
-    flex: 1,
-    fontSize: 20,
-    color: "#333",
-  },
-  cartButton: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  contentWrapper: { width: "100%", maxWidth: 600, alignSelf: "center", paddingHorizontal: 20, paddingTop: 20 },
+  card: { backgroundColor: "white", padding: 24, borderRadius: 12, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 5, borderTopWidth: 8, borderTopColor: "#A6192E" },
+  headerRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 10, position: "relative" },
+  header: { fontSize: 26, fontWeight: "bold", color: "#A6192E", textAlign: "center" },
+  cartCircle: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: "#A6192E", justifyContent: "center", alignItems: "center", position: "absolute", right: 0 },
+  topBlocks: { flexDirection: "row", justifyContent: "space-between", marginBottom: 16 },
+  block: { flex: 1, backgroundColor: "#f5f5f5", padding: 8, marginHorizontal: 4, borderRadius: 8, alignItems: "center" },
+  blockLabel: { fontSize: 14, color: "#555", marginBottom: 2 },
+  blockValue: { fontSize: 16, fontWeight: "600", color: "#374151" },
+  divider: { height: 1, backgroundColor: "#fecaca", marginBottom: 16 },
+  row: { flexDirection: "row", alignItems: "center", backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb", padding: 12, marginBottom: 12, borderRadius: 10, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
+  logo: { width: 65, height: 65, marginRight: 12, borderRadius: 8 },
+  mealPriceRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 4 },
+  mealText: { fontSize: 18, fontWeight: "600", color: "#A6192E" },
+  priceText: { fontSize: 16, fontWeight: "500", color: "#374151" },
+  rowText: { fontSize: 16, fontWeight: "500", marginBottom: 6, color: "#333" },
+  macroRow: { flexDirection: "row", gap: 12 },
+  macroText: { fontSize: 14, color: "#555" },
+  plusCircle: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: "#A6192E", justifyContent: "center", alignItems: "center", marginLeft: 8 },
 });
