@@ -1,20 +1,8 @@
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-// NOTE: These components are assumed to exist in your project structure:
-// import { Image } from 'expo-image';
-// import { HelloWave } from '@/components/hello-wave';
-// import ParallaxScrollView from '@/components/parallax-scroll-view';
-// import { ThemedText } from '@/components/themed-text';
-// import { ThemedView } from '@/components/themed-view';
-// import { Link } from 'expo-router';
-
-// Type definitions for the custom components used in your original file structure
 type ThemedTextType = 'title' | 'subtitle' | 'defaultSemiBold' | 'default';
 type InputMode = 'range' | 'single';
-
-// --- MOCK COMPONENT TYPING AND DEFINITIONS ---
-// Defined with React.FC interfaces to prevent TS errors.
 
 interface MockViewProps { children: React.ReactNode; style?: any; }
 interface MockTextProps { children: React.ReactNode; type?: ThemedTextType; style?: any; }
@@ -24,13 +12,8 @@ const ParallaxScrollView: React.FC<any> = ({ children, headerImage, headerBackgr
 const ThemedView: React.FC<MockViewProps> = ({ children, style }) => <View style={style}>{children}</View>;
 const ThemedText: React.FC<MockTextProps> = ({ children, type, style }) => <Text style={[{ fontSize: 16 }, style]}>{children}</Text>; 
 const Image: React.FC<MockImageProps> = ({ source, style }) => <View style={style} />;
-// Removed Link and HelloWave mocks as they are no longer used in the main render
 const HelloWave: React.FC = () => <ThemedText>👋</ThemedText>; 
 const Link: React.FC<any> = ({ children, href }) => <TouchableOpacity onPress={() => Alert.alert('Link Pressed', `Navigating to ${href}`)}>{children}</TouchableOpacity>;
-// -------------------------------------------------------------
-
-
-// --- Reusable Component: Weekly Balance Input ---
 
 interface BalanceInputProps {
   label: string;
@@ -63,7 +46,6 @@ const BalanceInput: React.FC<BalanceInputProps> = ({ label, value, onChange, pla
   </View>
 );
 
-// --- Reusable Component: Single Macro Input ---
 interface SingleMacroInputProps {
   label: string;
   value: string;
@@ -90,7 +72,6 @@ const SingleMacroInput: React.FC<SingleMacroInputProps> = ({ label, value, setVa
   </View>
 );
 
-// --- Reusable Component: Macro Range Input ---
 
 interface MacroRangeInputProps {
   label: string;
@@ -105,7 +86,6 @@ const MacroRangeInput: React.FC<MacroRangeInputProps> = ({ label, minVal, setMin
   <View style={styles.macroRow}>
     <ThemedText style={styles.label}>{label} Range</ThemedText>
     <View style={styles.rangeInputGroup}>
-      {/* Minimum Input */}
       <View style={styles.rangeInputWrapper}>
         <TextInput
           style={styles.textInput}
@@ -117,11 +97,9 @@ const MacroRangeInput: React.FC<MacroRangeInputProps> = ({ label, minVal, setMin
         />
         <ThemedText style={styles.unitSuffix}>{unit}</ThemedText>
       </View>
-      
-      {/* Separator */}
+
       <ThemedText style={styles.rangeSeparator}>-</ThemedText>
 
-      {/* Maximum Input */}
       <View style={styles.rangeInputWrapper}>
         <TextInput
           style={styles.textInput}
@@ -137,7 +115,6 @@ const MacroRangeInput: React.FC<MacroRangeInputProps> = ({ label, minVal, setMin
   </View>
 );
 
-// --- Mode Selector Component ---
 
 interface MacroModeSelectorProps {
   mode: InputMode;
@@ -162,18 +139,14 @@ const MacroModeSelector: React.FC<MacroModeSelectorProps> = ({ mode, setMode }) 
 );
 
 
-// --- Main HomeScreen Component (SDSU Meal Plan Logic) ---
 
 export default function HomeScreen() {
-  // State variables for user inputs
   const [balance, setBalance] = useState('');
   
-  // Macro Input Modes (default to range)
   const [proteinMode, setProteinMode] = useState<InputMode>('range');
   const [carbMode, setCarbMode] = useState<InputMode>('range');
   const [fatMode, setFatMode] = useState<InputMode>('range');
 
-  // Range states
   const [proteinMin, setProteinMin] = useState('');
   const [proteinMax, setProteinMax] = useState('');
   const [carbMin, setCarbMin] = useState('');
@@ -181,13 +154,11 @@ export default function HomeScreen() {
   const [fatMin, setFatMin] = useState('');
   const [fatMax, setFatMax] = useState('');
 
-  // Single goal states (used when mode is 'single')
   const [proteinSingle, setProteinSingle] = useState('');
   const [carbSingle, setCarbSingle] = useState('');
   const [fatSingle, setFatSingle] = useState('');
 
 
-  // Helper function to get the current macro goals for display/submission
   const getMacroGoals = (mode: InputMode, min: string, max: string, single: string, label: string) => {
     if (mode === 'single') {
       return `${label} Goal: ${single || 0}g`;
@@ -195,7 +166,6 @@ export default function HomeScreen() {
     return `${label} Range: ${min}-${max}g`;
   };
 
-  // Handles form submission 
   const handleSaveGoals = () => {
     const proteinGoal = getMacroGoals(proteinMode, proteinMin, proteinMax, proteinSingle, 'Protein');
     const carbGoal = getMacroGoals(carbMode, carbMin, carbMax, carbSingle, 'Carb');
@@ -205,7 +175,6 @@ export default function HomeScreen() {
       "Goals Submitted",
       `Balance: $${balance || 0}\n${proteinGoal}\n${carbGoal}\n${fatGoal}`
     );
-    // TODO: Implement navigation or data processing here
   };
   
   return (
@@ -217,11 +186,9 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
-      
-      {/* Content Wrapper added to constrain width and center content */}
+
       <View style={styles.contentWrapper}>
 
-        {/* --- SDSU MEAL PLAN OPTIMIZER FORM --- */}
         <ThemedView style={styles.formCard}>
             <ThemedText style={styles.headerText}>
                 SDSU Meal Plan Optimizer
@@ -230,7 +197,6 @@ export default function HomeScreen() {
                 Enter your balance and nutritional goals.
             </ThemedText>
 
-            {/* Balance Input */}
             <ThemedView style={styles.section}>
               <ThemedText style={styles.sectionTitle}>Meal Plan Budget</ThemedText>
               <BalanceInput
@@ -244,11 +210,9 @@ export default function HomeScreen() {
               
             </ThemedView>
 
-            {/* Macro Goals Input */}
             <ThemedView style={[styles.section, styles.macroSection]}>
               <ThemedText style={styles.sectionTitle}>Daily Macro Goals in Grams</ThemedText>
               
-              {/* Protein Input Block */}
               <View style={styles.macroBlock}>
                   <MacroModeSelector mode={proteinMode} setMode={setProteinMode} />
                   {proteinMode === 'range' ? (
@@ -267,7 +231,6 @@ export default function HomeScreen() {
                   )}
               </View>
 
-              {/* Carb Input Block */}
               <View style={styles.macroBlock}>
                   <MacroModeSelector mode={carbMode} setMode={setCarbMode} />
                   {carbMode === 'range' ? (
@@ -286,7 +249,6 @@ export default function HomeScreen() {
                   )}
               </View>
 
-              {/* Fat Input Block */}
               <View style={styles.macroBlock}>
                   <MacroModeSelector mode={fatMode} setMode={setFatMode} />
                   {fatMode === 'range' ? (
@@ -307,7 +269,6 @@ export default function HomeScreen() {
               
             </ThemedView>
 
-            {/* Submit Button */}
             <View style={styles.submitButtonWrapper}>
               <TouchableOpacity
                 onPress={handleSaveGoals}
@@ -319,8 +280,6 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
         </ThemedView>
-        
-        {/* Removed Step 2 and Step 3 content to make the screen shorter */}
         
       </View>
     </ParallaxScrollView>
@@ -346,27 +305,23 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 
-  // --- NEW STYLE FOR WIDTH CONSTRAINT ---
   contentWrapper: {
-    width: '100%', // Default to full width on small screens
-    maxWidth: 600, // Maximum width for tablets/desktops
-    alignSelf: 'center', // Center the container horizontally
-    paddingHorizontal: 20, // Add some padding on the sides for mobile
+    width: '100%',
+    maxWidth: 600,
+    alignSelf: 'center',
+    paddingHorizontal: 20,
   },
-
-  // --- SDSU Meal Plan Styles (Tailwind equivalent) ---
 
   formCard: {
     padding: 24,
     borderRadius: 12,
     marginTop: 16,
-    // Note: React Native uses backgroundColor instead of class bg-white
     backgroundColor: '#FFFFFF', 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    elevation: 5, // For Android shadow
+    elevation: 5,
     borderTopWidth: 8,
     borderTopColor: '#A6192E', 
   },
@@ -379,11 +334,11 @@ const styles = StyleSheet.create({
   subHeaderText: {
     fontSize: 14,
     color: '#6b7280', 
-    marginBottom: 16, // Reduced margin
+    marginBottom: 16,
   },
   section: {
-    marginBottom: 16, // Reduced margin
-    paddingBottom: 12, // Reduced padding
+    marginBottom: 16,
+    paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#fecaca', 
   },
@@ -395,17 +350,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: '#374151', 
-    marginBottom: 10, // Reduced margin
+    marginBottom: 10,
   },
-  // Reusable Input Styles
   inputContainer: {
-    marginBottom: 8, // Reduced margin
+    marginBottom: 8,
   },
   label: {
     fontSize: 14,
     fontWeight: '500',
     color: '#374151',
-    marginBottom: 3, // Reduced margin
+    marginBottom: 3,
   },
   textInputWrapper: {
     flexDirection: 'row',
@@ -413,19 +367,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderColor: '#d1d5db',
-    paddingVertical: 8, // Reduced padding
-    paddingHorizontal: 10, // Reduced padding
+    paddingVertical: 8,
+    paddingHorizontal: 10,
   },
   textInput: {
     flex: 1,
     color: '#1f2937',
     fontSize: 14,
-    padding: 0, // Reset default TextInput padding
+    padding: 0,
   },
   currencyPrefix: {
     color: '#6b7280', 
     fontSize: 14,
-    marginRight: 3, // Reduced margin
+    marginRight: 3,
   },
   inputPaddedLeft: {
     paddingLeft: 4, 
@@ -433,11 +387,11 @@ const styles = StyleSheet.create({
   unitSuffix: {
     color: '#6b7280', 
     fontSize: 14,
-    marginLeft: 6, // Reduced margin
+    marginLeft: 6,
   },
-  // Macro Range Styles
+
   macroRow: {
-    marginBottom: 12, // Reduced margin
+    marginBottom: 12,
   },
   rangeInputGroup: {
     flexDirection: 'row',
@@ -451,14 +405,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderColor: '#d1d5db',
-    paddingVertical: 8, // Reduced padding
-    paddingHorizontal: 10, // Reduced padding
+    paddingVertical: 8,
+    paddingHorizontal: 10,
   },
   rangeSeparator: {
-    marginHorizontal: 6, // Reduced margin
+    marginHorizontal: 6,
     color: '#9ca3af',
   },
-  // Submit Button Styles
   submitButtonWrapper: {
     paddingTop: 16,
   },
@@ -480,31 +433,29 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   
-  // --- NEW MODE SELECTOR STYLES ---
   macroBlock: {
-    marginBottom: 16, // Reduced margin
+    marginBottom: 16,
     paddingTop: 5,
   },
   modeSelectorGroup: {
     flexDirection: 'row',
-    backgroundColor: '#e5e7eb', // Gray-200 for background
+    backgroundColor: '#e5e7eb',
     borderRadius: 8,
-    marginBottom: 8, // Reduced margin
-    height: 36, // Reduced height for compactness
+    marginBottom: 8,
+    height: 36,
   },
   modeButton: {
     flex: 1,
-    paddingVertical: 6, // Reduced padding
-    paddingHorizontal: 8, // Reduced padding
+    paddingVertical: 6,
+    paddingHorizontal: 8,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
   },
   modeButtonRight: {
-    // Styling placeholder
   },
   modeButtonActive: {
-    backgroundColor: '#FFFFFF', // Active button background
+    backgroundColor: '#FFFFFF',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
@@ -514,10 +465,10 @@ const styles = StyleSheet.create({
   modeButtonText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#4b5563', // Inactive text color
+    color: '#4b5563',
   },
   modeButtonTextActive: {
-    color: '#A6192E', // SDSU Red for active text
+    color: '#A6192E',
     fontWeight: '700',
   },
 });

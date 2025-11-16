@@ -1,112 +1,168 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useState, useRef } from "react";
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, Animated, Easing } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+export default function Explore() {
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [boxesOrder, setBoxesOrder] = useState([
+    { id: 1, text: "Halal Shack", meal: "Chicken Bowl", price: 12.5, logo: require("../../assets/images/HalalShack.png"), protein: 42, calories: 600, fat: 18 },
+    { id: 2, text: "Panda Express", meal: "Orange Chicken Plate", price: 11.0, logo: require("../../assets/images/PandaExpress.png"), protein: 36, calories: 700, fat: 20 },
+    { id: 3, text: "Broken Yolk Cafe", meal: "Protein Scramble", price: 10.0, logo: require("../../assets/images/BroYo.png"), protein: 28, calories: 450, fat: 16 },
+    { id: 4, text: "Jamals Chicken", meal: "3pc Chicken Strips", price: 9.5, logo: require("../../assets/images/JamalsChicken.png"), protein: 48, calories: 550, fat: 22 },
+    { id: 5, text: "Subway", meal: "Turkey Sandwich", price: 8.5, logo: require("../../assets/images/Subway.png"), protein: 32, calories: 400, fat: 12 },
+  ]);
 
-export default function TabTwoScreen() {
+  const spinAnim = useRef(new Animated.Value(0)).current;
+
+  const initialBalance = 20.0;
+  const initialCalories = 1500;
+  const initialProtein = 100;
+  const initialFat = 70;
+
+  const animValues = useRef(
+    boxesOrder.reduce((acc, box) => {
+      acc[box.id] = new Animated.Value(1);
+      return acc;
+    }, {} as Record<number, Animated.Value>)
+  ).current;
+
+  const toggleItem = (id: number) => {
+    Animated.sequence([
+      Animated.timing(animValues[id], { toValue: 1.4, duration: 150, useNativeDriver: true }),
+      Animated.timing(animValues[id], { toValue: 1, duration: 150, useNativeDriver: true }),
+    ]).start();
+
+    setSelectedItems(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const shuffleBoxes = () => {
+    spinAnim.setValue(0);
+    Animated.timing(spinAnim, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+
+    const shuffled = [...boxesOrder].sort(() => Math.random() - 0.5);
+    setBoxesOrder(shuffled);
+    setSelectedItems([]);
+  };
+
+  const spin = spinAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
+  const remainingBalance = selectedItems.reduce((acc, id) => {
+    const box = boxesOrder.find(b => b.id === id);
+    return acc - (box?.price || 0);
+  }, initialBalance);
+
+  const remainingCalories = selectedItems.reduce((acc, id) => {
+    const box = boxesOrder.find(b => b.id === id);
+    return acc - (box?.calories || 0);
+  }, initialCalories);
+
+  const remainingProtein = selectedItems.reduce((acc, id) => {
+    const box = boxesOrder.find(b => b.id === id);
+    return acc - (box?.protein || 0);
+  }, initialProtein);
+
+  const remainingFat = selectedItems.reduce((acc, id) => {
+    const box = boxesOrder.find(b => b.id === id);
+    return acc - (box?.fat || 0);
+  }, initialFat);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <ScrollView style={{ flex: 1, backgroundColor: "#a6192e" }}>
+      <View style={styles.contentWrapper}>
+        <View style={styles.card}>
+
+          {/* Header Row */}
+          <View style={styles.headerRow}>
+            <Text style={styles.header}>Your Results</Text>
+            <TouchableOpacity style={styles.cartCircle} onPress={shuffleBoxes}>
+              <Animated.View style={{ transform: [{ rotate: spin }] }}>
+                <Ionicons name="refresh" size={28} color="#A6192E" />
+              </Animated.View>
+            </TouchableOpacity>
+          </View>
+
+          {/* Top blocks */}
+          <View style={styles.topBlocks}>
+            <View style={styles.block}>
+              <Text style={styles.blockLabel}>Balance</Text>
+              <Text style={[styles.blockValue, remainingBalance < 0 && { color: "red" }]}>${remainingBalance.toFixed(2)}</Text>
+            </View>
+            <View style={styles.block}>
+              <Text style={styles.blockLabel}>Calories</Text>
+              <Text style={[styles.blockValue, remainingCalories < 0 && { color: "red" }]}>{remainingCalories}</Text>
+            </View>
+            <View style={styles.block}>
+              <Text style={styles.blockLabel}>Protein</Text>
+              <Text style={[styles.blockValue, remainingProtein < 0 && { color: "red" }]}>{remainingProtein}g</Text>
+            </View>
+            <View style={styles.block}>
+              <Text style={styles.blockLabel}>Fat</Text>
+              <Text style={[styles.blockValue, remainingFat < 0 && { color: "red" }]}>{remainingFat}g</Text>
+            </View>
+          </View>
+
+          <View style={styles.divider} />
+
+          {boxesOrder.map((box) => (
+            <View key={box.id} style={styles.row}>
+              <Image source={box.logo} style={styles.logo} resizeMode="contain" />
+
+              <View style={{ flex: 1 }}>
+                <View style={styles.mealPriceRow}>
+                  <Text style={styles.mealText}>{box.meal}</Text>
+                  <Text style={styles.priceText}>${box.price.toFixed(2)}</Text>
+                </View>
+                <Text style={styles.rowText}>{box.text}</Text>
+
+                <View style={styles.macroRow}>
+                  <Text style={styles.macroText}>Calories: {box.calories}</Text>
+                  <Text style={styles.macroText}>Protein: {box.protein}g</Text>
+                  <Text style={styles.macroText}>Fat: {box.fat}g</Text>
+                </View>
+              </View>
+
+              <TouchableOpacity style={styles.plusCircle} onPress={() => toggleItem(box.id)}>
+                <Animated.View style={{ transform: [{ scale: animValues[box.id] }] }}>
+                  <Ionicons name={selectedItems.includes(box.id) ? "checkmark-outline" : "add-outline"} size={20} color="#A6192E" />
+                </Animated.View>
+              </TouchableOpacity>
+            </View>
+          ))}
+
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
+  contentWrapper: { width: "100%", maxWidth: 600, alignSelf: "center", paddingHorizontal: 20, paddingTop: 20 },
+  card: { backgroundColor: "white", padding: 24, borderRadius: 12, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 5, borderTopWidth: 8, borderTopColor: "#A6192E" },
+  headerRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 10, position: "relative" },
+  header: { fontSize: 26, fontWeight: "bold", color: "#A6192E", textAlign: "center" },
+  cartCircle: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: "#A6192E", justifyContent: "center", alignItems: "center", position: "absolute", right: 0 },
+  topBlocks: { flexDirection: "row", justifyContent: "space-between", marginBottom: 16 },
+  block: { flex: 1, backgroundColor: "#f5f5f5", padding: 8, marginHorizontal: 4, borderRadius: 8, alignItems: "center" },
+  blockLabel: { fontSize: 14, color: "#555", marginBottom: 2 },
+  blockValue: { fontSize: 16, fontWeight: "600", color: "#374151" },
+  divider: { height: 1, backgroundColor: "#fecaca", marginBottom: 16 },
+  row: { flexDirection: "row", alignItems: "center", backgroundColor: "#fff", borderWidth: 1, borderColor: "#e5e7eb", padding: 12, marginBottom: 12, borderRadius: 10, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
+  logo: { width: 65, height: 65, marginRight: 12, borderRadius: 8 },
+  mealPriceRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 4 },
+  mealText: { fontSize: 18, fontWeight: "600", color: "#A6192E" },
+  priceText: { fontSize: 16, fontWeight: "500", color: "#374151" },
+  rowText: { fontSize: 16, fontWeight: "500", marginBottom: 6, color: "#333" },
+  macroRow: { flexDirection: "row", gap: 12 },
+  macroText: { fontSize: 14, color: "#555" },
+  plusCircle: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: "#A6192E", justifyContent: "center", alignItems: "center", marginLeft: 8 },
 });
