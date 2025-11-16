@@ -1,6 +1,11 @@
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {auth, db} from "../lib/firebase";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut,onAuthStateChanged,} from "firebase/auth";
+import {doc, getDoc, serverTimestamp, setDoc} from "firebase/firestore";
+import type {User} from "firebase/auth";
+
 
 type ThemedTextType = 'title' | 'subtitle' | 'defaultSemiBold' | 'default';
 
@@ -77,27 +82,106 @@ const SingleMacroInput: React.FC<SingleMacroInputProps> = ({ label, value, setVa
 
 
 export default function HomeScreen() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] =useState("");
+  const [user, setUser] = useState<User | null>(null);
   const [balance, setBalance] = useState('');
   const [calories, setCalories] = useState('');
   const [protein, setProtein] = useState('');
   const [fat, setFat] = useState('');
 
-  const handleSaveGoals = () => {
-    const balanceValue = balance && balance.trim() !== '' ? parseFloat(balance) : null;
-    const calorieValue = calories && calories.trim() !== '' ? parseFloat(calories) : null;
-    const proteinValue = protein && protein.trim() !== '' ? parseFloat(protein) : null;
-    const fatValue = fat && fat.trim() !== '' ? parseFloat(fat) : null;
+  useEffect(() => {
+  const unsub = onAuthStateChanged(auth, async (u) => {
+    setUser(u); // <-- add this line
 
-    router.push({
-      pathname: '/(tabs)/explore',
-      params: {
-        balance: balanceValue !== null ? balanceValue.toString() : '',
-        calories: calorieValue !== null ? calorieValue.toString() : '',
-        protein: proteinValue !== null ? proteinValue.toString() : '',
-        fat: fatValue !== null ? fatValue.toString() : '',
-      },
-    });
+    if (!u) return;
+    try {
+      const snap = await getDoc(doc(db, "users", u.uid));
+      if (snap.exists()) {
+        const d: any = snap.data();
+        if (d.balance != null) setBalance(String(d.balance));
+        if (d.goals?.calories != null) setCalories(String(d.goals.calories));
+        if (d.goals?.protein != null) setProtein(String(d.goals.protein));
+        if (d.goals?.fat != null) setFat(String(d.goals.fat));
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+  });
+  return () => unsub();
+}, []);
+
+
+  const handleSignup = async () => {
+    try{
+      const cred = await createUserWithEmailAndPassword(auth, email.trim(), password);
+      await setDoc(
+        doc(db, "users", cred.user.uid),
+        {email: email.trim(), createdAt: serverTimestamp()},
+        {merge: true}
+      );
+      Alert.alert("Account created","You are signed in");
+    } catch(e:any){
+      Alert.alert("Sign up failed", e?.message ??"Try again");
+    }
   };
+  const handleLogin = async() => {
+    try{
+      await signInWithEmailAndPassword(auth, email.trim(),password);
+      Alert.alert("Signed in", "Welcome back!");
+    } catch (e:any){
+      Alert.alert("Log in failed", "Try again");
+    }
+  };
+  
+  const handleLogout = async () => {
+    await signOut(auth);
+    Alert.alert("Signed out","See you soon!")
+  };
+
+  const handleSaveGoals = async () => {
+    const u =auth.currentUser;
+    if(!u){
+      Alert.alert("Not signed in","Sign in to save your goals.");
+      return;
+    }
+    const balanceValue = balance.trim() ? Number(balance) : null;
+    const calorieValue = calories.trim() ? Number(calories) : null;
+    const proteinValue = protein.trim()  ? Number(protein) : null;
+    const fatValue = fat.trim() ? Number(fat) : null;
+
+    try{
+      await setDoc(
+        doc(db, "users",u.uid),
+        {
+          balance: balanceValue,
+          goals:{
+            calories: calorieValue,
+            protein: proteinValue,
+            fat: fatValue,
+          },
+          updatedAt: serverTimestamp(),
+        },
+        {merge: true}
+      );
+
+     router.replace({
+      pathname: "/(tabs)/explore",   // ← include the group
+      params: {
+        balance: balanceValue != null ? String(balanceValue) : "",
+        calories: calorieValue != null ? String(calorieValue) : "",
+        protein:  proteinValue  != null ? String(proteinValue)  : "",
+        fat:      fatValue      != null ? String(fatValue)      : "",
+    },
+});
+
+      setTimeout(()=> Alert.alert("Saved", "Your goals were saved to your account."),0);
+
+
+    } catch (e:any){
+      Alert.alert("Save failed", e?.message??"Please try again.");
+    };
+    }
   
   return (
     <ParallaxScrollView
@@ -110,6 +194,32 @@ export default function HomeScreen() {
       }>
 
       <View style={styles.contentWrapper}>
+        <ThemedView style={[styles.section, { borderBottomWidth: 0, paddingBottom: 0 }]}>
+  {user ? (
+    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+      <ThemedText style={{ fontWeight: "600" }}>Signed in as {user.email}</ThemedText>
+      <TouchableOpacity
+        onPress={async () => {
+          await signOut(auth);
+          Alert.alert("Signed out", "See you soon!");
+        }}
+        style={[styles.submitButton, { paddingVertical: 8, backgroundColor: "#6b7280" }]}
+      >
+        <ThemedText style={styles.submitButtonText}>Sign out</ThemedText>
+      </TouchableOpacity>
+    </View>
+  ) : (
+    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+      <ThemedText style={{ color: "#6b7280" }}>You’re not signed in.</ThemedText>
+      <TouchableOpacity
+        onPress={() => router.push("/(auth)/sign-in")}
+        style={[styles.submitButton, { paddingVertical: 8 }]}
+      >
+        <ThemedText style={styles.submitButtonText}>Sign in</ThemedText>
+      </TouchableOpacity>
+    </View>
+  )}
+</ThemedView>
 
         <ThemedView style={styles.formCard}>
             <ThemedText style={styles.headerText}>
