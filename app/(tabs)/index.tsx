@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -8,7 +9,7 @@ interface MockViewProps { children: React.ReactNode; style?: any; }
 interface MockTextProps { children: React.ReactNode; type?: ThemedTextType; style?: any; }
 interface MockImageProps { source: any; style?: any; }
 
-const ParallaxScrollView: React.FC<any> = ({ children, headerImage, headerBackgroundColor }) => <View style={{ flex: 1 }}>{children}</View>;
+const ParallaxScrollView: React.FC<any> = ({ children, headerImage, headerBackgroundColor }) => <View style={{ flex: 1, backgroundColor: '#a6192e' }}>{children}</View>;
 const ThemedView: React.FC<MockViewProps> = ({ children, style }) => <View style={style}>{children}</View>;
 const ThemedText: React.FC<MockTextProps> = ({ children, type, style }) => <Text style={[{ fontSize: 16 }, style]}>{children}</Text>; 
 const Image: React.FC<MockImageProps> = ({ source, style }) => <View style={style} />;
@@ -143,19 +144,19 @@ const MacroModeSelector: React.FC<MacroModeSelectorProps> = ({ mode, setMode }) 
 export default function HomeScreen() {
   const [balance, setBalance] = useState('');
   
+  const [calorieMode, setCalorieMode] = useState<InputMode>('range');
   const [proteinMode, setProteinMode] = useState<InputMode>('range');
-  const [carbMode, setCarbMode] = useState<InputMode>('range');
   const [fatMode, setFatMode] = useState<InputMode>('range');
 
+  const [calorieMin, setCalorieMin] = useState('');
+  const [calorieMax, setCalorieMax] = useState('');
   const [proteinMin, setProteinMin] = useState('');
   const [proteinMax, setProteinMax] = useState('');
-  const [carbMin, setCarbMin] = useState('');
-  const [carbMax, setCarbMax] = useState('');
   const [fatMin, setFatMin] = useState('');
   const [fatMax, setFatMax] = useState('');
 
+  const [calorieSingle, setCalorieSingle] = useState('');
   const [proteinSingle, setProteinSingle] = useState('');
-  const [carbSingle, setCarbSingle] = useState('');
   const [fatSingle, setFatSingle] = useState('');
 
 
@@ -167,14 +168,26 @@ export default function HomeScreen() {
   };
 
   const handleSaveGoals = () => {
-    const proteinGoal = getMacroGoals(proteinMode, proteinMin, proteinMax, proteinSingle, 'Protein');
-    const carbGoal = getMacroGoals(carbMode, carbMin, carbMax, carbSingle, 'Carb');
-    const fatGoal = getMacroGoals(fatMode, fatMin, fatMax, fatSingle, 'Fat');
+    const balanceValue = balance && balance.trim() !== '' ? parseFloat(balance) : null;
+    const calorieMaxValue = calorieMode === 'range' 
+      ? (calorieMax && calorieMax.trim() !== '' ? parseFloat(calorieMax) : null)
+      : (calorieSingle && calorieSingle.trim() !== '' ? parseFloat(calorieSingle) : null);
+    const proteinMaxValue = proteinMode === 'range'
+      ? (proteinMax && proteinMax.trim() !== '' ? parseFloat(proteinMax) : null)
+      : (proteinSingle && proteinSingle.trim() !== '' ? parseFloat(proteinSingle) : null);
+    const fatMaxValue = fatMode === 'range'
+      ? (fatMax && fatMax.trim() !== '' ? parseFloat(fatMax) : null)
+      : (fatSingle && fatSingle.trim() !== '' ? parseFloat(fatSingle) : null);
 
-    Alert.alert(
-      "Goals Submitted",
-      `Balance: $${balance || 0}\n${proteinGoal}\n${carbGoal}\n${fatGoal}`
-    );
+    router.push({
+      pathname: '/(tabs)/explore',
+      params: {
+        balance: balanceValue !== null ? balanceValue.toString() : '',
+        calories: calorieMaxValue !== null ? calorieMaxValue.toString() : '',
+        protein: proteinMaxValue !== null ? proteinMaxValue.toString() : '',
+        fat: fatMaxValue !== null ? fatMaxValue.toString() : '',
+      },
+    });
   };
   
   return (
@@ -212,7 +225,25 @@ export default function HomeScreen() {
 
             <ThemedView style={[styles.section, styles.macroSection]}>
               <ThemedText style={styles.sectionTitle}>Daily Macro Goals in Grams</ThemedText>
-              
+
+              <View style={styles.macroBlock}>
+                  <MacroModeSelector mode={calorieMode} setMode={setCalorieMode} />
+                  {calorieMode === 'range' ? (
+                      <MacroRangeInput
+                          label="Calorie"
+                          minVal={calorieMin} setMin={setCalorieMin}
+                          maxVal={calorieMax} setMax={setCalorieMax}
+                          unit="cal"
+                      />
+                  ) : (
+                      <SingleMacroInput
+                          label="Calorie"
+                          value={calorieSingle} setValue={setCalorieSingle}
+                          unit="g"
+                      />
+                  )}
+              </View>
+
               <View style={styles.macroBlock}>
                   <MacroModeSelector mode={proteinMode} setMode={setProteinMode} />
                   {proteinMode === 'range' ? (
@@ -226,24 +257,6 @@ export default function HomeScreen() {
                       <SingleMacroInput
                           label="Protein"
                           value={proteinSingle} setValue={setProteinSingle}
-                          unit="g"
-                      />
-                  )}
-              </View>
-
-              <View style={styles.macroBlock}>
-                  <MacroModeSelector mode={carbMode} setMode={setCarbMode} />
-                  {carbMode === 'range' ? (
-                      <MacroRangeInput
-                          label="Carb"
-                          minVal={carbMin} setMin={setCarbMin}
-                          maxVal={carbMax} setMax={setCarbMax}
-                          unit="g"
-                      />
-                  ) : (
-                      <SingleMacroInput
-                          label="Carb"
-                          value={carbSingle} setValue={setCarbSingle}
                           unit="g"
                       />
                   )}
@@ -287,7 +300,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  // Original styles
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -326,7 +338,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#A6192E', 
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#A6192E', 
     marginBottom: 4,
@@ -442,7 +454,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e5e7eb',
     borderRadius: 8,
     marginBottom: 8,
-    height: 36,
+    height: 32,
   },
   modeButton: {
     flex: 1,
