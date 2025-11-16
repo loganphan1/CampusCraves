@@ -14,9 +14,9 @@ export default function TabLayout() {
         }}
       />
       <Stack.Screen
-        name="test"
+        name="explore"
         options={{
-          title: 'Test',
+          title: 'Explore',
         }}
       />
     </Stack>

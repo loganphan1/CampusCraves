@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 type ThemedTextType = 'title' | 'subtitle' | 'defaultSemiBold' | 'default';
-type InputMode = 'range' | 'single';
 
 interface MockViewProps { children: React.ReactNode; style?: any; }
 interface MockTextProps { children: React.ReactNode; type?: ThemedTextType; style?: any; }
@@ -74,118 +73,28 @@ const SingleMacroInput: React.FC<SingleMacroInputProps> = ({ label, value, setVa
 );
 
 
-interface MacroRangeInputProps {
-  label: string;
-  minVal: string;
-  setMin: (text: string) => void;
-  maxVal: string;
-  setMax: (text: string) => void;
-  unit: string;
-}
-
-const MacroRangeInput: React.FC<MacroRangeInputProps> = ({ label, minVal, setMin, maxVal, setMax, unit }) => (
-  <View style={styles.macroRow}>
-    <ThemedText style={styles.label}>{label} Range</ThemedText>
-    <View style={styles.rangeInputGroup}>
-      <View style={styles.rangeInputWrapper}>
-        <TextInput
-          style={styles.textInput}
-          keyboardType="numeric"
-          placeholder="min"
-          placeholderTextColor="#9ca3af"
-          value={minVal}
-          onChangeText={setMin}
-        />
-        <ThemedText style={styles.unitSuffix}>{unit}</ThemedText>
-      </View>
-
-      <ThemedText style={styles.rangeSeparator}>-</ThemedText>
-
-      <View style={styles.rangeInputWrapper}>
-        <TextInput
-          style={styles.textInput}
-          keyboardType="numeric"
-          placeholder="max"
-          placeholderTextColor="#9ca3af"
-          value={maxVal}
-          onChangeText={setMax}
-        />
-        <ThemedText style={styles.unitSuffix}>{unit}</ThemedText>
-      </View>
-    </View>
-  </View>
-);
-
-
-interface MacroModeSelectorProps {
-  mode: InputMode;
-  setMode: (mode: InputMode) => void;
-}
-
-const MacroModeSelector: React.FC<MacroModeSelectorProps> = ({ mode, setMode }) => (
-  <View style={styles.modeSelectorGroup}>
-    <TouchableOpacity
-      style={[styles.modeButton, mode === 'range' && styles.modeButtonActive]}
-      onPress={() => setMode('range')}
-    >
-      <ThemedText style={[styles.modeButtonText, mode === 'range' && styles.modeButtonTextActive]}>Range</ThemedText>
-    </TouchableOpacity>
-    <TouchableOpacity
-      style={[styles.modeButton, mode === 'single' && styles.modeButtonActive, styles.modeButtonRight]}
-      onPress={() => setMode('single')}
-    >
-      <ThemedText style={[styles.modeButtonText, mode === 'single' && styles.modeButtonTextActive]}>Single Number</ThemedText>
-    </TouchableOpacity>
-  </View>
-);
 
 
 
 export default function HomeScreen() {
   const [balance, setBalance] = useState('');
-  
-  const [calorieMode, setCalorieMode] = useState<InputMode>('range');
-  const [proteinMode, setProteinMode] = useState<InputMode>('range');
-  const [fatMode, setFatMode] = useState<InputMode>('range');
-
-  const [calorieMin, setCalorieMin] = useState('');
-  const [calorieMax, setCalorieMax] = useState('');
-  const [proteinMin, setProteinMin] = useState('');
-  const [proteinMax, setProteinMax] = useState('');
-  const [fatMin, setFatMin] = useState('');
-  const [fatMax, setFatMax] = useState('');
-
-  const [calorieSingle, setCalorieSingle] = useState('');
-  const [proteinSingle, setProteinSingle] = useState('');
-  const [fatSingle, setFatSingle] = useState('');
-
-
-  const getMacroGoals = (mode: InputMode, min: string, max: string, single: string, label: string) => {
-    if (mode === 'single') {
-      return `${label} Goal: ${single || 0}g`;
-    }
-    return `${label} Range: ${min}-${max}g`;
-  };
+  const [calories, setCalories] = useState('');
+  const [protein, setProtein] = useState('');
+  const [fat, setFat] = useState('');
 
   const handleSaveGoals = () => {
     const balanceValue = balance && balance.trim() !== '' ? parseFloat(balance) : null;
-    const calorieMaxValue = calorieMode === 'range' 
-      ? (calorieMax && calorieMax.trim() !== '' ? parseFloat(calorieMax) : null)
-      : (calorieSingle && calorieSingle.trim() !== '' ? parseFloat(calorieSingle) : null);
-    const proteinMaxValue = proteinMode === 'range'
-      ? (proteinMax && proteinMax.trim() !== '' ? parseFloat(proteinMax) : null)
-      : (proteinSingle && proteinSingle.trim() !== '' ? parseFloat(proteinSingle) : null);
-    const fatMaxValue = fatMode === 'range'
-      ? (fatMax && fatMax.trim() !== '' ? parseFloat(fatMax) : null)
-      : (fatSingle && fatSingle.trim() !== '' ? parseFloat(fatSingle) : null);
+    const calorieValue = calories && calories.trim() !== '' ? parseFloat(calories) : null;
+    const proteinValue = protein && protein.trim() !== '' ? parseFloat(protein) : null;
+    const fatValue = fat && fat.trim() !== '' ? parseFloat(fat) : null;
 
     router.push({
       pathname: '/(tabs)/explore',
       params: {
         balance: balanceValue !== null ? balanceValue.toString() : '',
-        calories: calorieMaxValue !== null ? calorieMaxValue.toString() : '',
-        protein: proteinMaxValue !== null ? proteinMaxValue.toString() : '',
-        fat: fatMaxValue !== null ? fatMaxValue.toString() : '',
+        calories: calorieValue !== null ? calorieValue.toString() : '',
+        protein: proteinValue !== null ? proteinValue.toString() : '',
+        fat: fatValue !== null ? fatValue.toString() : '',
       },
     });
   };
@@ -204,7 +113,7 @@ export default function HomeScreen() {
 
         <ThemedView style={styles.formCard}>
             <ThemedText style={styles.headerText}>
-                SDSU Meal Plan Optimizer
+                Campus Craves
             </ThemedText>
             <ThemedText style={styles.subHeaderText}>
                 Enter your balance and nutritional goals.
@@ -224,60 +133,30 @@ export default function HomeScreen() {
             </ThemedView>
 
             <ThemedView style={[styles.section, styles.macroSection]}>
-              <ThemedText style={styles.sectionTitle}>Daily Macro Goals in Grams</ThemedText>
+              <ThemedText style={styles.sectionTitle}>Daily Macro Goals</ThemedText>
 
               <View style={styles.macroBlock}>
-                  <MacroModeSelector mode={calorieMode} setMode={setCalorieMode} />
-                  {calorieMode === 'range' ? (
-                      <MacroRangeInput
-                          label="Calorie"
-                          minVal={calorieMin} setMin={setCalorieMin}
-                          maxVal={calorieMax} setMax={setCalorieMax}
-                          unit="cal"
-                      />
-                  ) : (
-                      <SingleMacroInput
-                          label="Calorie"
-                          value={calorieSingle} setValue={setCalorieSingle}
-                          unit="g"
-                      />
-                  )}
+                  <SingleMacroInput
+                      label="Calorie"
+                      value={calories} setValue={setCalories}
+                      unit="cal"
+                  />
               </View>
 
               <View style={styles.macroBlock}>
-                  <MacroModeSelector mode={proteinMode} setMode={setProteinMode} />
-                  {proteinMode === 'range' ? (
-                      <MacroRangeInput
-                          label="Protein"
-                          minVal={proteinMin} setMin={setProteinMin}
-                          maxVal={proteinMax} setMax={setProteinMax}
-                          unit="g"
-                      />
-                  ) : (
-                      <SingleMacroInput
-                          label="Protein"
-                          value={proteinSingle} setValue={setProteinSingle}
-                          unit="g"
-                      />
-                  )}
+                  <SingleMacroInput
+                      label="Protein"
+                      value={protein} setValue={setProtein}
+                      unit="g"
+                  />
               </View>
 
               <View style={styles.macroBlock}>
-                  <MacroModeSelector mode={fatMode} setMode={setFatMode} />
-                  {fatMode === 'range' ? (
-                      <MacroRangeInput
-                          label="Fat"
-                          minVal={fatMin} setMin={setFatMin}
-                          maxVal={fatMax} setMax={setFatMax}
-                          unit="g"
-                      />
-                  ) : (
-                      <SingleMacroInput
-                          label="Fat"
-                          value={fatSingle} setValue={setFatSingle}
-                          unit="g"
-                      />
-                  )}
+                  <SingleMacroInput
+                      label="Fat"
+                      value={fat} setValue={setFat}
+                      unit="g"
+                  />
               </View>
               
             </ThemedView>
