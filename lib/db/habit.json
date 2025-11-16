@@ -1,0 +1,84 @@
+{
+  "restaurant": "The Habit Burger & Grill",
+  "menu_url": "https://www.habitburger.com/nutritional-information/",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "prices": "Estimated typical in-store pricing",
+    "nutrition_source": "Official Habit Burger nutritional information"
+  },
+  "items": [
+    {
+      "name": "Charburger (Seeded Bun)",
+      "price": 10.50,
+      "calories_kcal": 470,
+      "protein_g_est": 20,
+      "fat_g_est": 35
+    },
+    {
+      "name": "BBQ Bacon Charburger",
+      "price": 11.50,
+      "calories_kcal": 630,
+      "protein_g_est": 27,
+      "fat_g_est": 44
+    },
+    {
+      "name": "Double Charburger (Seeded Bun)",
+      "price": 13.00,
+      "calories_kcal": 640,
+      "protein_g_est": 39,
+      "fat_g_est": 55
+    },
+    {
+      "name": "Teriyaki Charburger",
+      "price": 10.50,
+      "calories_kcal": 510,
+      "protein_g_est": 23,
+      "fat_g_est": 35
+    },
+    {
+      "name": "Santa Barbara Charburger",
+      "price": 12.50,
+      "calories_kcal": 930,
+      "protein_g_est": 52,
+      "fat_g_est": 69
+    },
+    {
+      "name": "Veggie Burger on Wheat Bun (Vegan option)",
+      "price": 11.00,
+      "calories_kcal": 470,
+      "protein_g_est": 28,
+      "fat_g_est": 12
+    },
+    {
+      "name": "Chargrilled Ahi Tuna Sandwich",
+      "price": 12.00,
+      "calories_kcal": 390,
+      "protein_g_est": 28,
+      "fat_g_est": 10
+    },
+    {
+      "name": "Chicken Club Sandwich",
+      "price": 12.00,
+      "calories_kcal": 730,
+      "protein_g_est": 47,
+      "fat_g_est": 39
+    },
+    {
+      "name": "Golden Fried Chicken Sandwich",
+      "price": 12.50,
+      "calories_kcal": 930,
+      "protein_g_est": 48,
+      "fat_g_est": 40
+    },
+    {
+      "name": "Santa Barbara Cobb Salad with Dressing",
+      "price": 11.00,
+      "calories_kcal": 690,
+      "protein_g_est": 47,
+      "fat_g_est": 50
+    }
+  ]
+}

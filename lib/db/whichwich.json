@@ -1,0 +1,94 @@
+{
+  "restaurant": "Which Wich",
+  "menu_url": "https://whichwich.com/pdf/WW-Nutritional-Info.pdf",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "prices": "Estimated typical in-store pricing in USD",
+    "nutrition_source": "Official Which Wich nutrition facts PDF"
+  },
+  "items": [
+    {
+      "name": "Superfood Wich – Spinach Tortilla",
+      "price": 10.49,
+      "calories_kcal": 800,
+      "protein_g_est": 28,
+      "fat_g_est": 24,
+      "notes": "800 cal from nutrition list. :contentReference[oaicite:2]{index=2}"
+    },
+    {
+      "name": "Wicked Sandwich (Large)",
+      "price": 9.99,
+      "calories_kcal": 770,
+      "protein_g_est": 46,
+      "fat_g_est": 28,
+      "notes": "770 cal data from nutrition list. :contentReference[oaicite:3]{index=3}"
+    },
+    {
+      "name": "Thank You Turkey Sandwich (Large)",
+      "price": 9.49,
+      "calories_kcal": 950,
+      "protein_g_est": 43,
+      "fat_g_est": 8,
+      "notes": "950 cal in nutrition listing. :contentReference[oaicite:4]{index=4}"
+    },
+    {
+      "name": "Turkeywich Sandwich (Large)",
+      "price": 9.49,
+      "calories_kcal": 790,
+      "protein_g_est": 40,
+      "fat_g_est": 23,
+      "notes": "790 cal listed. :contentReference[oaicite:5]{index=5}"
+    },
+    {
+      "name": "Muffuletta Sandwich (Large)",
+      "price": 11.49,
+      "calories_kcal": 1300,
+      "protein_g_est": 59,
+      "fat_g_est": 77,
+      "notes": "1300 cal listed. :contentReference[oaicite:6]{index=6}"
+    },
+    {
+      "name": "Pepperoni Pizzawich Sandwich (Large)",
+      "price": 10.99,
+      "calories_kcal": 1410,
+      "protein_g_est": 57,
+      "fat_g_est": 89,
+      "notes": "1410 cal listed. :contentReference[oaicite:7]{index=7}"
+    },
+    {
+      "name": "Chicken Salad Sandwich (Large)",
+      "price": 9.99,
+      "calories_kcal": 1380,
+      "protein_g_est": 56,
+      "fat_g_est": 92,
+      "notes": "1380 cal from nutrition list. :contentReference[oaicite:8]{index=8}"
+    },
+    {
+      "name": "Italian Club (Large)",
+      "price": 9.99,
+      "calories_kcal": 700,
+      "protein_g_est": 46,
+      "fat_g_est": 31,
+      "notes": "700 cal listed. :contentReference[oaicite:9]{index=9}"
+    },
+    {
+      "name": "Cordon Bleu Sandwich (Large)",
+      "price": 9.49,
+      "calories_kcal": 570,
+      "protein_g_est": 38,
+      "fat_g_est": 9,
+      "notes": "570 cal data. :contentReference[oaicite:10]{index=10}"
+    },
+    {
+      "name": "Club Sandwich (Large)",
+      "price": 9.49,
+      "calories_kcal": 690,
+      "protein_g_est": 45,
+      "fat_g_est": 18,
+      "notes": "690 cal from listing. :contentReference[oaicite:11]{index=11}"
+    }
+  ]
+}

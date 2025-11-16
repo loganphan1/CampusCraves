@@ -1,0 +1,85 @@
+{
+  "restaurant": "Oggi’s Pizza",
+  "menu_url": "https://www.oggis.com/",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "nutrition_estimated": true,
+    "price_sources": "Menu listings via AllMenus/MenuWithPrices",
+    "nutrition_sources": "Comparable items from other restaurants"
+  },
+  "items": [
+    {
+      "name": "The Works Pizza (10\" Specialty)",
+      "price": 14.99,
+      "calories_kcal": 1850,
+      "protein_g": 75,
+      "fat_g": 85
+    },
+    {
+      "name": "The Meats Pizza (10\" Specialty)",
+      "price": 15.99,
+      "calories_kcal": 1920,
+      "protein_g": 90,
+      "fat_g": 95
+    },
+    {
+      "name": "Five-Cheese Pizza (10\" Specialty)",
+      "price": 14.99,
+      "calories_kcal": 1650,
+      "protein_g": 60,
+      "fat_g": 72
+    },
+    {
+      "name": "BBQ Chicken Pizza (10\" Specialty)",
+      "price": 14.99,
+      "calories_kcal": 1720,
+      "protein_g": 65,
+      "fat_g": 70
+    },
+    {
+      "name": "Pepperoni (10\")",
+      "price": 13.50,
+      "calories_kcal": 1100,
+      "protein_g": 50,
+      "fat_g": 60
+    },
+    {
+      "name": "Pesto Mia (10\")",
+      "price": 14.00,
+      "calories_kcal": 1420,
+      "protein_g": 48,
+      "fat_g": 56
+    },
+    {
+      "name": "Oggi's Special (10\")",
+      "price": 15.00,
+      "calories_kcal": 1200,
+      "protein_g": 35,
+      "fat_g": 42
+    },
+    {
+      "name": "Mediterranean Delight Salad",
+      "price": 14.00,
+      "calories_kcal": 750,
+      "protein_g": 45,
+      "fat_g": 38
+    },
+    {
+      "name": "Oggi's Stixx",
+      "price": 7.00,
+      "calories_kcal": 760,
+      "protein_g": 15,
+      "fat_g": 30
+    },
+    {
+      "name": "Wings",
+      "price": 13.95,
+      "calories_kcal": 910,
+      "protein_g": 42,
+      "fat_g": 29
+    }
+  ]
+}

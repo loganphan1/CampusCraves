@@ -1,0 +1,94 @@
+{
+  "restaurant": "Big City Bagel Cafe",
+  "menu_url": "https://www.bcbcafesd.com/hillcrest-menu/?location=SDSU%20Coffee%20Kiosks",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "nutrition_estimated": true,
+    "nutrition_basis": "Typical bagel/sandwich nutrition for comparable items"
+  },
+  "items": [
+    {
+      "name": "Egg & Cheese Bagel Sandwich",
+      "price": 8.00,
+      "calories_kcal": 450,
+      "protein_g": 18,
+      "fat_g": 20,
+      "notes": "Breakfast Anytime Sandwich — menu shows $8.00. :contentReference[oaicite:1]{index=1}"
+    },
+    {
+      "name": "BCB Fit (Egg Whites, Turkey Bacon, Avocado & Hot Sauce)",
+      "price": 11.00,
+      "calories_kcal": 520,
+      "protein_g": 32,
+      "fat_g": 24,
+      "notes": "Menu shows $11.00. :contentReference[oaicite:2]{index=2}"
+    },
+    {
+      "name": "Avacado Toast",
+      "price": 8.00,
+      "calories_kcal": 300,
+      "protein_g": 5,
+      "fat_g": 12,
+      "notes": "Menu shows $12.00. :contentReference[oaicite:3]{index=3}"
+    },
+    {
+      "name": "Mexicali (Egg, Jalapeño Cream Cheese, Sausage & Avocado)",
+      "price": 12.00,
+      "calories_kcal": 640,
+      "protein_g": 30,
+      "fat_g": 34,
+      "notes": "Menu shows $12.00. :contentReference[oaicite:4]{index=4}"
+    },
+    {
+      "name": "BALT",
+      "price": 14.00,
+      "calories_kcal": 650,
+      "protein_g": 32,
+      "fat_g": 23,
+      "notes": "Menu shows $18.00. :contentReference[oaicite:5]{index=5}"
+    },
+    {
+      "name": "Cali Turkey Melt",
+      "price": 12.00,
+      "calories_kcal": 620,
+      "protein_g": 34,
+      "fat_g": 26,
+      "notes": "Menu shows $14.00. :contentReference[oaicite:6]{index=6}"
+    },
+    {
+      "name": "Chicken Pesto Melt (Hot Sandwich)",
+      "price": 14.00,
+      "calories_kcal": 700,
+      "protein_g": 39,
+      "fat_g": 30,
+      "notes": "Menu shows $14.00. :contentReference[oaicite:7]{index=7}"
+    },
+    {
+      "name": "Chicken Wrap",
+      "price": 10.00,
+      "calories_kcal": 450,
+      "protein_g": 33,
+      "fat_g": 25,
+      "notes": "Menu shows $16.00. :contentReference[oaicite:8]{index=8}"
+    },
+    {
+      "name": "BCB Acai Bowl",
+      "price": 15.00,
+      "calories_kcal": 560,
+      "protein_g": 8,
+      "fat_g": 12,
+      "notes": "Acai & Yogurt Bowl section — menu shows $15.00. :contentReference[oaicite:9]{index=9}"
+    },
+    {
+      "name": "Powerhouse Acai Bowl",
+      "price": 17.00,
+      "calories_kcal": 620,
+      "protein_g": 12,
+      "fat_g": 20,
+      "notes": "Acai & Yogurt Bowl section — menu shows $17.00. :contentReference[oaicite:10]{index=10}"
+    }
+  ]
+}

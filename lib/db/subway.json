@@ -1,0 +1,94 @@
+{
+  "restaurant": "Subway",
+  "menu_url": "https://www.subway.com/en-us/-/media/northamerica/usa/nutrition/nutritiondocuments/2025/us_nutrition_w4_eng_9-2025.pdf",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "prices": "Estimated typical US in-store pricing",
+    "nutrition_source": "Subway Nutrition Information January 2025 PDF + supplementary tables"  
+  },
+  "items": [
+    {
+      "name": "6\" Sweet Onion Chicken Teriyaki Sandwich",
+      "price": 7.49,
+      "calories_kcal": 430,
+      "protein_g": 29,
+      "fat_g": 11,
+      "notes": "From January 2025 nutrition table: 430 kcal. :contentReference[oaicite:1]{index=1}"
+    },
+    {
+      "name": "6\" Oven Roasted Turkey Sandwich",
+      "price": 6.99,
+      "calories_kcal": 270,
+      "protein_g": 21,
+      "fat_g": 4,
+      "notes": "From January 2025 nutrition table. :contentReference[oaicite:2]{index=2}"
+    },
+    {
+      "name": "6\" Veggie Delite® Sandwich",
+      "price": 5.99,
+      "calories_kcal": 210,
+      "protein_g": 10,
+      "fat_g": 3,
+      "notes": "From January 2025 nutrition table. :contentReference[oaicite:3]{index=3}"
+    },
+    {
+      "name": "Footlong Chipotle Chicken & Cheese Sandwich",
+      "price": 11.99,
+      "calories_kcal": 450,
+      "protein_g": 27,
+      "fat_g": 18,
+      "notes": "From menu nutrition overview. :contentReference[oaicite:4]{index=4}"
+    },
+    {
+      "name": "Footlong Big Hot Pastrami Sandwich",
+      "price": 12.49,
+      "calories_kcal": 1160,
+      "protein_g": 58,
+      "fat_g": 62,
+      "notes": "From nutrition facts list. :contentReference[oaicite:5]{index=5}"
+    },
+    {
+      "name": "No Bready Bowl – Sweet Onion Chicken Teriyaki",
+      "price": 8.49,
+      "calories_kcal": 300,
+      "protein_g": 35,
+      "fat_g": 20,
+      "notes": "From nutrition table of No Bready Bowls. :contentReference[oaicite:6]{index=6}"
+    },
+    {
+      "name": "No Bready Bowl – Chicken & Bacon Ranch",
+      "price": 9.49,
+      "calories_kcal": 600,
+      "protein_g": 42,
+      "fat_g": 28,
+      "notes": "From nutrition table for No Bready Bowl. :contentReference[oaicite:7]{index=7}"
+    },
+    {
+      "name": "6\" Turkey & Bacon Club Sandwich",
+      "price": 8.99,
+      "calories_kcal": 600,
+      "protein_g": 34,
+      "fat_g": 10,
+      "notes": "From nutrition overview. :contentReference[oaicite:8]{index=8}"
+    },
+    {
+      "name": "Footlong Steak & Cheese Sandwich",
+      "price": 10.99,
+      "calories_kcal": 860,
+      "protein_g": 64,
+      "fat_g": 32,
+      "notes": "From nutrition facts guide. :contentReference[oaicite:9]{index=9}"
+    },
+    {
+      "name": "6\" Tuna Sandwich",
+      "price": 7.49,
+      "calories_kcal": 470,
+      "protein_g": 25,
+      "fat_g": 20,
+      "notes": "From nutrition table. :contentReference[oaicite:10]{index=10}"
+    }
+  ]
+}

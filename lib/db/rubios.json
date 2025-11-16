@@ -1,0 +1,94 @@
+{
+  "restaurant": "Rubio's Coastal Grill",
+  "menu_url": "https://rubios.com/wp-content/uploads/2025/05/April-2025-Rubios-Nutrition-Allergen-Guide.pdf",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "prices": "Estimated typical dine-in pricing",
+    "nutrition_source": "Rubio’s April 2025 Nutrition & Allergen Guide and public nutrition sites"
+  },
+  "items": [
+    {
+      "name": "California Bowl",
+      "price": 13.49,
+      "calories_kcal": 560,
+      "protein_g": 14,
+      "fat_g": 22,
+      "notes": "From nutrition guide 550-740 kcal range. :contentReference[oaicite:1]{index=1}"
+    },
+    {
+      "name": "Mexican Street Corn Bowl",
+      "price": 14.74,
+      "calories_kcal": 730,
+      "protein_g": 17,
+      "fat_g": 24,
+      "notes": "From nutrition guide 730-910 kcal range. :contentReference[oaicite:2]{index=2}"
+    },
+    {
+      "name": "Cilantro Lime Quinoa Bowl",
+      "price": 15.36,
+      "calories_kcal": 550,
+      "protein_g": 17,
+      "fat_g": 25,
+      "notes": "From nutrition guide 570-750 kcal range. :contentReference[oaicite:3]{index=3}"
+    },
+    {
+      "name": "Mango Avocado Salad",
+      "price": 14.99,
+      "calories_kcal": 460,
+      "protein_g": 6,
+      "fat_g": 32,
+      "notes": "From nutrition guide 460-640 kcal range. :contentReference[oaicite:4]{index=4}"
+    },
+    {
+      "name": "Avocado Corn Taco Salad",
+      "price": 14.36,
+      "calories_kcal": 440,
+      "protein_g": 6,
+      "fat_g": 32,
+      "notes": "From nutrition guide 440-620 kcal range. :contentReference[oaicite:5]{index=5}"
+    },
+    {
+      "name": "Burrito Especial with Grilled All Natural Chicken",
+      "price": 14.99,
+      "calories_kcal": 1090,
+      "protein_g": 45,
+      "fat_g": 39,
+      "notes": "From nutrition list 1090 kcal. :contentReference[oaicite:6]{index=6}"
+    },
+    {
+      "name": "Wild-Caught Mahi Mahi Burrito",
+      "price": 16.86,
+      "calories_kcal": 1040,
+      "protein_g": 37,
+      "fat_g": 35,
+      "notes": "From nutrition list 1040 kcal. :contentReference[oaicite:7]{index=7}"
+    },
+    {
+      "name": "Bean & Cheese Burrito",
+      "price": 11.24,
+      "calories_kcal": 950,
+      "protein_g": 41,
+      "fat_g": 36,
+      "notes": "From nutrition list 950 kcal. :contentReference[oaicite:8]{index=8}"
+    },
+    {
+      "name": "Ancho Citrus Shrimp Burrito",
+      "price": 16.24,
+      "calories_kcal": 1040,
+      "protein_g": 31,
+      "fat_g": 37,
+      "notes": "From nutrition list 1040 kcal. :contentReference[oaicite:9]{index=9}"
+    },
+    {
+      "name": "Chopped Salad",
+      "price": 12.49,
+      "calories_kcal": 380,
+      "protein_g": 7,
+      "fat_g": 31,
+      "notes": "From nutrition list 380-560 kcal range. :contentReference[oaicite:10]{index=10}"
+    }
+  ]
+}
