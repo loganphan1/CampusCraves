@@ -1,0 +1,93 @@
+{
+  "restaurant": "Shake Smart",
+  "menu_url": "https://shakesmart.com/nutrition-facts/",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "type": "Drink/Bowl place — include shakes & bowls",
+    "prices": "Estimated typical menu pricing",
+    "nutrition_source": "Shake Smart nutrition facts page & public databases"
+  },
+  "items": [
+    {
+      "name": "Chocolate Frosty (Regular, ½ Agave)",
+      "price": 7.50,
+      "calories_kcal": 213,
+      "protein_g": 30,
+      "fat_g": 1,
+      "notes": "From school nutrition sheet: 213 kcal, 30 g protein. :contentReference[oaicite:1]{index=1}"
+    },
+    {
+      "name": "Vanilla Thrilla (Regular, ½ Agave)",
+      "price": 7.50,
+      "calories_kcal": 203,
+      "protein_g": 30,
+      "fat_g": 1,
+      "notes": "From school nutrition sheet: 203 kcal, 30 g protein. :contentReference[oaicite:2]{index=2}"
+    },
+    {
+      "name": "PB Squared (No Agave)",
+      "price": 8.00,
+      "calories_kcal": 258,
+      "protein_g": 31,
+      "fat_g": 7,
+      "notes": "From school nutrition sheet: 258 kcal. :contentReference[oaicite:3]{index=3}"
+    },
+    {
+      "name": "A Perfect 10 (Large Shake, ½ Agave)",
+      "price": 9.00,
+      "calories_kcal": 320,
+      "protein_g": 32,
+      "fat_g": 7,
+      "notes": "From EatThisMuch listing: 320 kcal, 32 g protein, 7 g fat. :contentReference[oaicite:4]{index=4}"
+    },
+    {
+      "name": "Rawçaí Bowl (Scooped Bowl, No Agave)",
+      "price": 9.50,
+      "calories_kcal": 221,
+      "protein_g": 2,
+      "fat_g": 5,
+      "notes": "From Nutritionix: 221 kcal, 2 g protein. :contentReference[oaicite:5]{index=5}"
+    },
+    {
+      "name": "Dragon Bowl (Blended Bowl, No Agave)",
+      "price": 10.00,
+      "calories_kcal": 197,
+      "protein_g": 22,
+      "fat_g": 1,
+      "notes": "From Nutritionix: 197 kcal, 22 g protein. :contentReference[oaicite:6]{index=6}"
+    },
+    {
+      "name": "Organic Supershake (No Agave)",
+      "price": 8.50,
+      "calories_kcal": 258,
+      "protein_g": 32,
+      "fat_g": 7,
+      "notes": "School nutrition sheet: 258 kcal, 32 g protein. :contentReference[oaicite:7]{index=7}"
+    },
+    {
+      "name": "Strawberry Fields (No Agave)",
+      "price": 7.50,
+      "calories_kcal": 150,
+      "protein_g": 27,
+      "fat_g": 1,
+      "notes": "From Nutritionix listing: 150 kcal, 27 g protein. :contentReference[oaicite:8]{index=8}"
+    },
+    {
+      "name": "Matcha Mentality (Greens & Veggies Shake, ½ Agave)",
+      "price": 8.00,
+      "calories_kcal": 172,
+      "protein_g": 19,
+      "fat_g": 0,
+      "notes": "School nutrition sheet: 172 kcal, 19 g protein. :contentReference[oaicite:9]{index=9}"
+    },
+    {
+      "name": "PB&A Bowl (Blended Bowl, No Agave)",
+      "price": 10.00,
+      "calories_kcal": 346,
+      "protein_g": 20,
+      "fat_g": 9,
+      "notes": "Nutritionix: 346 kcal, 20 g protein, 9 g fat. :contentReference[oaicite:10]{index=10}"
+    }
+  ]
+}

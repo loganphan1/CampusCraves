@@ -1,0 +1,95 @@
+{
+  "restaurant": "The Halal Shack",
+  "menu_url": "https://www.thehalalshack.com/",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "calorie_ranges_used": true,
+    "protein_fat_estimates": "Based on typical macro ratios for Mediterranean-style bowls",
+    "nutrition_source": "Official menu calorie ranges"
+  },
+  "items": [
+    {
+      "name": "Rice Bowl – Chicken",
+      "price": 9.99,
+      "calories_kcal_low": 405,
+      "calories_kcal_high": 1045,
+      "protein_g_est": 30,
+      "fat_g_est": 12
+    },
+    {
+      "name": "Rice Bowl – Beef",
+      "price": 9.99,
+      "calories_kcal_low": 405,
+      "calories_kcal_high": 1045,
+      "protein_g_est": 32,
+      "fat_g_est": 15
+    },
+    {
+      "name": "Rice Bowl – Falafel",
+      "price": 9.99,
+      "calories_kcal_low": 405,
+      "calories_kcal_high": 1045,
+      "protein_g_est": 18,
+      "fat_g_est": 16
+    },
+    {
+      "name": "Salad Bowl – Chicken",
+      "price": 9.99,
+      "calories_kcal_low": 225,
+      "calories_kcal_high": 815,
+      "protein_g_est": 28,
+      "fat_g_est": 10
+    },
+    {
+      "name": "Salad Bowl – Beef",
+      "price": 9.99,
+      "calories_kcal_low": 225,
+      "calories_kcal_high": 815,
+      "protein_g_est": 30,
+      "fat_g_est": 14
+    },
+    {
+      "name": "Fries Bowl – Chicken",
+      "price": 9.99,
+      "calories_kcal_low": 595,
+      "calories_kcal_high": 1185,
+      "protein_g_est": 30,
+      "fat_g_est": 30
+    },
+    {
+      "name": "Fries Bowl – Beef",
+      "price": 9.99,
+      "calories_kcal_low": 595,
+      "calories_kcal_high": 1185,
+      "protein_g_est": 32,
+      "fat_g_est": 32
+    },
+    {
+      "name": "Hummus Bowl – Veg/Chicken",
+      "price": 9.99,
+      "calories_kcal_low": 235,
+      "calories_kcal_high": 488,
+      "protein_g_est": 20,
+      "fat_g_est": 8
+    },
+    {
+      "name": "Naanarito Bowl – Chicken/Beef",
+      "price": 8.49,
+      "calories_kcal_low": 563,
+      "calories_kcal_high": 1063,
+      "protein_g_est": 28,
+      "fat_g_est": 24
+    },
+    {
+      "name": "Wellness Bowl – Chef Inspired",
+      "price": 10.99,
+      "calories_kcal_low": 300,
+      "calories_kcal_high": 600,
+      "protein_g_est": 25,
+      "fat_g_est": 10
+    }
+  ]
+}

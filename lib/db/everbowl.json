@@ -1,0 +1,54 @@
+{
+  "restaurant": "Everbowl",
+  "menu_url": "https://admin.everbowl.com/uploads/Nutritional_Information_Chart_091d1f7dec.pdf",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": false,
+    "sides_addons_excluded": true,
+    "nutrition_source": "Official Everbowl Nutrition Chart (11/5/24) :contentReference[oaicite:1]{index=1}",
+    "prices": "Estimated typical bowl prices"
+  },
+  "items": [
+    {
+      "name": "EVERBOWL (Large)",
+      "price": 12.00,
+      "calories_kcal": 700,
+      "protein_g": 60,
+      "fat_g": 13,
+      "notes": "Large size bowl from chart. :contentReference[oaicite:2]{index=2}"
+    },
+    {
+      "name": "PB EVERBOWL (Large)",
+      "price": 13.00,
+      "calories_kcal": 760,
+      "protein_g": 60,
+      "fat_g": 18,
+      "notes": "Large size PB version. :contentReference[oaicite:3]{index=3}"
+    },
+    {
+      "name": "BERRY BOOST (Large)",
+      "price": 11.00,
+      "calories_kcal": 530,
+      "protein_g": 50,
+      "fat_g": 8,
+      "notes": "Large size from chart. :contentReference[oaicite:4]{index=4}"
+    },
+    {
+      "name": "BLUE LAGOON (Large)",
+      "price": 11.50,
+      "calories_kcal": 510,
+      "protein_g": 53,
+      "fat_g": 12,
+      "notes": "Large size from chart. :contentReference[oaicite:5]{index=5}"
+    },
+    {
+      "name": "FULL MOON (Large)",
+      "price": 13.00,
+      "calories_kcal": 650,
+      "protein_g": 64,
+      "fat_g": 20,
+      "notes": "Large size from chart. :contentReference[oaicite:6]{index=6}"
+    }
+  ]
+}

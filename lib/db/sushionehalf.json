@@ -1,0 +1,84 @@
+{
+  "restaurant": "One n Half",
+  "menu_url": "https://onenhalf.com/index.php?sec=information/information&information_id=7",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "nutrition_estimated": true,
+    "price_estimates": "Based on menu listings for bowl sizes"
+  },
+  "items": [
+    {
+      "name": "Small Bowl (2 scoops of fish)",
+      "price": 15.95,
+      "calories_kcal": 450,
+      "protein_g": 25,
+      "fat_g": 12
+    },
+    {
+      "name": "Regular Bowl (3 scoops of fish)",
+      "price": 16.95,
+      "calories_kcal": 650,
+      "protein_g": 35,
+      "fat_g": 16
+    },
+    {
+      "name": "Large Bowl (4 scoops of fish)",
+      "price": 17.95,
+      "calories_kcal": 850,
+      "protein_g": 45,
+      "fat_g": 20
+    },
+    {
+      "name": "Kid’s Bowl (2 scoops of crab meat + juice box)",
+      "price": 12.95,
+      "calories_kcal": 400,
+      "protein_g": 20,
+      "fat_g": 10
+    },
+    {
+      "name": "Salmon & Tuna Combo Bowl (Regular size)",
+      "price": 16.95,
+      "calories_kcal": 700,
+      "protein_g": 37,
+      "fat_g": 18
+    },
+    {
+      "name": "Shrimp & Scallop Bowl (Large size)",
+      "price": 17.95,
+      "calories_kcal": 900,
+      "protein_g": 40,
+      "fat_g": 22
+    },
+    {
+      "name": "Chicken & Tofu Mixed Bowl (Regular size)",
+      "price": 16.95,
+      "calories_kcal": 650,
+      "protein_g": 38,
+      "fat_g": 14
+    },
+    {
+      "name": "Octopus & Tuna Bowl (Large size)",
+      "price": 17.95,
+      "calories_kcal": 880,
+      "protein_g": 50,
+      "fat_g": 24
+    },
+    {
+      "name": "Veggie Bowl (Tofu + chickpea, Regular size)",
+      "price": 15.95,
+      "calories_kcal": 550,
+      "protein_g": 22,
+      "fat_g": 12
+    },
+    {
+      "name": "Quinoa Base Bowl (Salmon, Regular size)",
+      "price": 17.95,
+      "calories_kcal": 720,
+      "protein_g": 33,
+      "fat_g": 20
+    }
+  ]
+}

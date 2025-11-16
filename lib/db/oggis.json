@@ -1,0 +1,85 @@
+{
+  "restaurant": "Oggi’s Sports | Brewhouse | Pizza",
+  "menu_url": "https://www.oggis.com/",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "nutrition_estimated": true,
+    "price_sources": "Menu listings via AllMenus/MenuWithPrices",
+    "nutrition_sources": "Comparable items from other restaurants"
+  },
+  "items": [
+    {
+      "name": "The Works Pizza (10\" Specialty)",
+      "price": 14.99,
+      "calories_kcal": 1850,
+      "protein_g": 75,
+      "fat_g": 85
+    },
+    {
+      "name": "The Meats Pizza (10\" Specialty)",
+      "price": 15.99,
+      "calories_kcal": 1920,
+      "protein_g": 90,
+      "fat_g": 95
+    },
+    {
+      "name": "Five-Cheese Pizza (10\" Specialty)",
+      "price": 14.99,
+      "calories_kcal": 1650,
+      "protein_g": 60,
+      "fat_g": 72
+    },
+    {
+      "name": "BBQ Chicken Pizza (10\" Specialty)",
+      "price": 14.99,
+      "calories_kcal": 1720,
+      "protein_g": 65,
+      "fat_g": 70
+    },
+    {
+      "name": "Chicago Style Burger (½ lb Angus)*",
+      "price": 13.50,
+      "calories_kcal": 1100,
+      "protein_g": 50,
+      "fat_g": 60
+    },
+    {
+      "name": "Chicken Tequila Pasta (Spinach Fettuccine)",
+      "price": 24.20,
+      "calories_kcal": 1420,
+      "protein_g": 48,
+      "fat_g": 56
+    },
+    {
+      "name": "Quinoa, Arugula & Avocado Salad",
+      "price": 13.00,
+      "calories_kcal": 620,
+      "protein_g": 15,
+      "fat_g": 32
+    },
+    {
+      "name": "Blackened Santa Fe Chicken Salad",
+      "price": 13.00,
+      "calories_kcal": 750,
+      "protein_g": 45,
+      "fat_g": 38
+    },
+    {
+      "name": "Beer-Battered Fish & Chips",
+      "price": 12.25,
+      "calories_kcal": 1250,
+      "protein_g": 55,
+      "fat_g": 65
+    },
+    {
+      "name": "Lemon Pepper-Crusted Tilapia with Vegetables",
+      "price": 13.95,
+      "calories_kcal": 910,
+      "protein_g": 42,
+      "fat_g": 29
+    }
+  ]
+}
