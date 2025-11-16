@@ -9,6 +9,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  
   return (
     <Tabs
       screenOptions={{
@@ -23,6 +24,17 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
+
+      <Tabs.Screen
+        name="FatSecret"
+        options={{
+          title: 'FatSecret',
+          tabBarIcon: ({ color }) => (
+          <IconSymbol size={28} name="leaf.fill" color={color} /> // pick any SF Symbol
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="explore"
         options={{
@@ -33,3 +45,4 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
