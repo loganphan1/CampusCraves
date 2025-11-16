@@ -95,7 +95,6 @@ function processMealData(): MealItem[] {
         calories = Math.round((item.calories_kcal_low + item.calories_kcal_high) / 2);
       }
 
-      // Handle different protein field names
       let protein = 0;
       if (item.protein_g !== undefined) {
         protein = item.protein_g;
@@ -103,7 +102,6 @@ function processMealData(): MealItem[] {
         protein = item.protein_g_est;
       }
 
-      // Handle different fat field names
       let fat = 0;
       if (item.fat_g !== undefined) {
         fat = item.fat_g;
@@ -126,7 +124,6 @@ function processMealData(): MealItem[] {
     mealsByRestaurant[restaurantName] = restaurantMeals;
   });
 
-  // Pick one random meal from each restaurant
   const oneMealPerRestaurant: MealItem[] = [];
   Object.keys(mealsByRestaurant).forEach((restaurantName) => {
     const meals = mealsByRestaurant[restaurantName];
@@ -136,27 +133,35 @@ function processMealData(): MealItem[] {
     }
   });
 
-  // Randomize the list first
   const randomized = oneMealPerRestaurant.sort(() => Math.random() - 0.5);
   
   return randomized.slice(0, 6);
 }
 
-// Sort meals by calories, then protein, then fat
-function sortMeals(meals: MealItem[], descending: boolean = true): MealItem[] {
+function sortMeals(meals: MealItem[], sortBy: 'calories' | 'protein' | 'fat', descending: boolean = true): MealItem[] {
   return [...meals].sort((a, b) => {
     const multiplier = descending ? -1 : 1;
+    let primaryValue: number;
+    let secondaryValue: number;
+    let tertiaryValue: number;
     
-    // First sort by calories
-    if (b.calories !== a.calories) {
-      return (b.calories - a.calories) * multiplier;
+    if (sortBy === 'calories') {
+      primaryValue = (b.calories - a.calories) * multiplier;
+      secondaryValue = (b.protein - a.protein) * multiplier;
+      tertiaryValue = (b.fat - a.fat) * multiplier;
+    } else if (sortBy === 'protein') {
+      primaryValue = (b.protein - a.protein) * multiplier;
+      secondaryValue = (b.calories - a.calories) * multiplier;
+      tertiaryValue = (b.fat - a.fat) * multiplier;
+    } else {
+      primaryValue = (b.fat - a.fat) * multiplier;
+      secondaryValue = (b.calories - a.calories) * multiplier;
+      tertiaryValue = (b.protein - a.protein) * multiplier;
     }
-    // Then by protein
-    if (b.protein !== a.protein) {
-      return (b.protein - a.protein) * multiplier;
-    }
-    // Finally by fat
-    return (b.fat - a.fat) * multiplier;
+    
+    if (primaryValue !== 0) return primaryValue;
+    if (secondaryValue !== 0) return secondaryValue;
+    return tertiaryValue;
   });
 }
 
@@ -166,7 +171,10 @@ export default function Explore() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [boxesOrder, setBoxesOrder] = useState<MealItem[]>([]);
-  const [sortDescending, setSortDescending] = useState(true); // true = most to least, false = least to most
+  const [sortBy, setSortBy] = useState<'calories' | 'protein' | 'fat'>('calories');
+  const [sortDescending, setSortDescending] = useState(false);
+  const [expandedRestaurants, setExpandedRestaurants] = useState<Set<string>>(new Set());
+  const [allMealsByRestaurant, setAllMealsByRestaurant] = useState<Record<string, MealItem[]>>({});
 
   const spinAnim = useRef(new Animated.Value(0)).current;
 
@@ -179,13 +187,83 @@ export default function Explore() {
   const animValues = useRef<Record<number, Animated.Value>>({});
 
   useEffect(() => {
-    // Load and randomize meals
-    const meals = processMealData();
-    const sortedMeals = sortMeals(meals, sortDescending);
+    const allData = [
+      bcbData,
+      brokenYolkData,
+      eurekaData,
+      everbowlData,
+      habitData,
+      halalshackData,
+      oggisData,
+      pandaData,
+      rubiosData,
+      shakesmartData,
+      subwayData,
+      sushionehalfData,
+      whichwichData,
+    ];
+
+    const mealsByRestaurant: Record<string, MealItem[]> = {};
+    let idCounter = 1;
+
+    allData.forEach((restaurantData) => {
+      const restaurantName = restaurantData.restaurant;
+      const logo = getRestaurantLogo(restaurantName);
+      const restaurantMeals: MealItem[] = [];
+
+      restaurantData.items.forEach((item: any) => {
+        let calories = 0;
+        if (item.calories_kcal !== undefined) {
+          calories = item.calories_kcal;
+        } else if (item.calories_kcal_low !== undefined && item.calories_kcal_high !== undefined) {
+          calories = Math.round((item.calories_kcal_low + item.calories_kcal_high) / 2);
+        }
+
+        let protein = 0;
+        if (item.protein_g !== undefined) {
+          protein = item.protein_g;
+        } else if (item.protein_g_est !== undefined) {
+          protein = item.protein_g_est;
+        }
+
+        let fat = 0;
+        if (item.fat_g !== undefined) {
+          fat = item.fat_g;
+        } else if (item.fat_g_est !== undefined) {
+          fat = item.fat_g_est;
+        }
+
+        restaurantMeals.push({
+          id: idCounter++,
+          text: restaurantName,
+          meal: item.name,
+          price: item.price || 0,
+          logo: logo,
+          protein: protein,
+          calories: calories,
+          fat: fat,
+        });
+      });
+
+      mealsByRestaurant[restaurantName] = restaurantMeals;
+    });
+
+    setAllMealsByRestaurant(mealsByRestaurant);
+
+    const oneMealPerRestaurant: MealItem[] = [];
+    Object.keys(mealsByRestaurant).forEach((restaurantName) => {
+      const meals = mealsByRestaurant[restaurantName];
+      if (meals.length > 0) {
+        const randomMeal = meals[Math.floor(Math.random() * meals.length)];
+        oneMealPerRestaurant.push(randomMeal);
+      }
+    });
+
+    const randomized = oneMealPerRestaurant.sort(() => Math.random() - 0.5);
+    const sortedMeals = sortMeals(randomized, sortBy, sortDescending);
     setBoxesOrder(sortedMeals);
 
-    // Initialize anim values for all meals
-    sortedMeals.forEach((meal) => {
+    Object.values(mealsByRestaurant).flat().forEach((meal) => {
       if (!animValues.current[meal.id]) {
         animValues.current[meal.id] = new Animated.Value(1);
       }
@@ -196,7 +274,7 @@ export default function Explore() {
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, []); // Only run on mount
+  }, []);
 
   const toggleItem = (id: number) => {
     if (!animValues.current[id]) {
@@ -222,13 +300,11 @@ export default function Explore() {
       useNativeDriver: true,
     }).start();
 
-    // Reload and randomize meals
     const meals = processMealData();
-    const sortedMeals = sortMeals(meals, sortDescending);
+    const sortedMeals = sortMeals(meals, sortBy, sortDescending);
     setBoxesOrder(sortedMeals);
     setSelectedItems([]);
     
-    // Update anim values for new meals
     const newAnimValues: Record<number, Animated.Value> = {};
     sortedMeals.forEach((meal) => {
       newAnimValues[meal.id] = new Animated.Value(1);
@@ -236,11 +312,53 @@ export default function Explore() {
     Object.assign(animValues.current, newAnimValues);
   };
 
-  const toggleSortOrder = () => {
-    const newSortOrder = !sortDescending;
-    setSortDescending(newSortOrder);
-    const sortedMeals = sortMeals(boxesOrder, newSortOrder);
+  const toggleSort = () => {
+    let newSortBy: 'calories' | 'protein' | 'fat';
+    let newSortDescending: boolean;
+    
+    if (sortBy === 'calories') {
+      if (sortDescending) {
+        newSortBy = 'protein';
+        newSortDescending = false;
+      } else {
+        newSortBy = 'calories';
+        newSortDescending = true;
+      }
+    } else if (sortBy === 'protein') {
+      if (sortDescending) {
+        newSortBy = 'fat';
+        newSortDescending = false;
+      } else {
+        newSortBy = 'protein';
+        newSortDescending = true;
+      }
+    } else {
+      if (sortDescending) {
+        newSortBy = 'calories';
+        newSortDescending = false;
+      } else {
+        newSortBy = 'fat';
+        newSortDescending = true;
+      }
+    }
+    
+    setSortBy(newSortBy);
+    setSortDescending(newSortDescending);
+    
+    const sortedMeals = sortMeals(boxesOrder, newSortBy, newSortDescending);
     setBoxesOrder(sortedMeals);
+  };
+
+  const toggleRestaurant = (restaurantName: string) => {
+    setExpandedRestaurants(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(restaurantName)) {
+        newSet.delete(restaurantName);
+      } else {
+        newSet.add(restaurantName);
+      }
+      return newSet;
+    });
   };
 
   const spin = spinAnim.interpolate({
@@ -248,31 +366,39 @@ export default function Explore() {
     outputRange: ["0deg", "360deg"],
   });
 
+  const findMealById = (id: number): MealItem | undefined => {
+    for (const meals of Object.values(allMealsByRestaurant)) {
+      const meal = meals.find(m => m.id === id);
+      if (meal) return meal;
+    }
+    return undefined;
+  };
+
   const remainingBalance = initialBalance !== null 
     ? selectedItems.reduce((acc, id) => {
-        const box = boxesOrder.find(b => b.id === id);
-        return acc - (box?.price || 0);
+        const meal = findMealById(id);
+        return acc - (meal?.price || 0);
       }, initialBalance)
     : null;
 
   const remainingCalories = initialCalories !== null
     ? selectedItems.reduce((acc, id) => {
-        const box = boxesOrder.find(b => b.id === id);
-        return acc - (box?.calories || 0);
+        const meal = findMealById(id);
+        return acc - (meal?.calories || 0);
       }, initialCalories)
     : null;
 
   const remainingProtein = initialProtein !== null
     ? selectedItems.reduce((acc, id) => {
-        const box = boxesOrder.find(b => b.id === id);
-        return acc - (box?.protein || 0);
+        const meal = findMealById(id);
+        return acc - (meal?.protein || 0);
       }, initialProtein)
     : null;
 
   const remainingFat = initialFat !== null
     ? selectedItems.reduce((acc, id) => {
-        const box = boxesOrder.find(b => b.id === id);
-        return acc - (box?.fat || 0);
+        const meal = findMealById(id);
+        return acc - (meal?.fat || 0);
       }, initialFat)
     : null;
 
@@ -299,9 +425,11 @@ export default function Explore() {
               <Text style={styles.headerText}>Suggested Meals</Text>
             </View>
             <View style={styles.headerButtons}>
-              <TouchableOpacity style={styles.sortButton} onPress={toggleSortOrder}>
+              <TouchableOpacity style={styles.sortButton} onPress={toggleSort}>
                 <Ionicons name={sortDescending ? "arrow-down" : "arrow-up"} size={20} color="#A6192E" />
-                <Text style={styles.sortButtonText}>Cal</Text>
+                <Text style={styles.sortButtonText}>
+                  {sortBy === 'calories' ? 'Cal' : sortBy === 'protein' ? 'Pro' : 'Fat'}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.cartCircle} onPress={shuffleBoxes}>
                 <Animated.View style={{ transform: [{ rotate: spin }] }}>
@@ -341,31 +469,75 @@ export default function Explore() {
 
           <View style={styles.divider} />
 
-          {boxesOrder.map((box) => (
-            <View key={box.id} style={styles.row}>
-              <Image source={box.logo} style={styles.logo} resizeMode="contain" />
+          {boxesOrder.map((box) => {
+            const isExpanded = expandedRestaurants.has(box.text);
+            const allRestaurantMeals = allMealsByRestaurant[box.text] || [];
+            const otherMeals = allRestaurantMeals.filter(meal => meal.id !== box.id && meal.meal !== box.meal);
 
-              <View style={{ flex: 1 }}>
-                <View style={styles.mealPriceRow}>
-                  <Text style={styles.mealText}>{box.meal}</Text>
-                  <Text style={styles.priceText}>${box.price.toFixed(2)}</Text>
-                </View>
-                <Text style={styles.rowText}>{box.text}</Text>
+            return (
+              <View key={box.id}>
+                <View style={styles.row}>
+                  <Image source={box.logo} style={styles.logo} resizeMode="contain" />
 
-                <View style={styles.macroRow}>
-                  <Text style={styles.macroText}>Calories: {box.calories}cal</Text>
-                  <Text style={styles.macroText}>Protein: {box.protein}g</Text>
-                  <Text style={styles.macroText}>Fat: {box.fat}g</Text>
+                  <View style={{ flex: 1 }}>
+                    <View style={styles.mealPriceRow}>
+                      <Text style={styles.mealText}>{box.meal}</Text>
+                      <Text style={styles.priceText}>${box.price.toFixed(2)}</Text>
+                    </View>
+                    <Text style={styles.rowText}>{box.text}</Text>
+
+                    <View style={styles.macroRow}>
+                      <Text style={styles.macroText}>Calories: {box.calories}cal</Text>
+                      <Text style={styles.macroText}>Protein: {box.protein}g</Text>
+                      <Text style={styles.macroText}>Fat: {box.fat}g</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.rowButtons}>
+                    {otherMeals.length > 0 && (
+                      <TouchableOpacity style={styles.dropdownButton} onPress={() => toggleRestaurant(box.text)}>
+                        <Ionicons name={isExpanded ? "chevron-up" : "chevron-down"} size={20} color="#A6192E" />
+                      </TouchableOpacity>
+                    )}
+                    <TouchableOpacity style={styles.plusCircle} onPress={() => toggleItem(box.id)}>
+                      <Animated.View style={{ transform: [{ scale: animValues.current[box.id] || defaultAnimValue }] }}>
+                        <Ionicons name={selectedItems.includes(box.id) ? "checkmark-outline" : "add-outline"} size={20} color="#A6192E" />
+                      </Animated.View>
+                    </TouchableOpacity>
+                  </View>
                 </View>
+
+                {isExpanded && otherMeals.length > 0 && (
+                  <View style={styles.expandedContainer}>
+                    {otherMeals.map((meal) => (
+                      <View key={meal.id} style={styles.expandedRow}>
+                        <Image source={meal.logo} style={styles.logo} resizeMode="contain" />
+
+                        <View style={{ flex: 1 }}>
+                          <View style={styles.mealPriceRow}>
+                            <Text style={styles.expandedMealText}>{meal.meal}</Text>
+                            <Text style={styles.expandedPriceText}>${meal.price.toFixed(2)}</Text>
+                          </View>
+
+                          <View style={styles.macroRow}>
+                            <Text style={styles.expandedMacroText}>Calories: {meal.calories}cal</Text>
+                            <Text style={styles.expandedMacroText}>Protein: {meal.protein}g</Text>
+                            <Text style={styles.expandedMacroText}>Fat: {meal.fat}g</Text>
+                          </View>
+                        </View>
+
+                        <TouchableOpacity style={styles.plusCircle} onPress={() => toggleItem(meal.id)}>
+                          <Animated.View style={{ transform: [{ scale: animValues.current[meal.id] || defaultAnimValue }] }}>
+                            <Ionicons name={selectedItems.includes(meal.id) ? "checkmark-outline" : "add-outline"} size={20} color="#A6192E" />
+                          </Animated.View>
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </View>
+                )}
               </View>
-
-              <TouchableOpacity style={styles.plusCircle} onPress={() => toggleItem(box.id)}>
-                <Animated.View style={{ transform: [{ scale: animValues.current[box.id] || defaultAnimValue }] }}>
-                  <Ionicons name={selectedItems.includes(box.id) ? "checkmark-outline" : "add-outline"} size={20} color="#A6192E" />
-                </Animated.View>
-              </TouchableOpacity>
-            </View>
-          ))}
+            );
+          })}
 
         </View>
       </View>
@@ -399,5 +571,12 @@ const styles = StyleSheet.create({
   rowText: { fontSize: 16, fontWeight: "500", marginBottom: 6, color: "#333" },
   macroRow: { flexDirection: "row", gap: 12 },
   macroText: { fontSize: 14, color: "#555" },
-  plusCircle: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: "#A6192E", justifyContent: "center", alignItems: "center", marginLeft: 8 },
+  rowButtons: { flexDirection: "row", alignItems: "center", gap: 8 },
+  dropdownButton: { width: 32, height: 32, borderRadius: 16, borderWidth: 2, borderColor: "#A6192E", justifyContent: "center", alignItems: "center" },
+  plusCircle: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: "#A6192E", justifyContent: "center", alignItems: "center" },
+  expandedContainer: { marginLeft: 12, marginBottom: 12, paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: "#A6192E" },
+  expandedRow: { flexDirection: "row", alignItems: "center", backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", padding: 10, marginBottom: 8, borderRadius: 8 },
+  expandedMealText: { fontSize: 14, fontWeight: "600", color: "#A6192E" },
+  expandedPriceText: { fontSize: 13, fontWeight: "500", color: "#374151" },
+  expandedMacroText: { fontSize: 12, color: "#555" },
 });
