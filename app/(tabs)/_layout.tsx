@@ -1,5 +1,7 @@
 import { Stack } from 'expo-router';
 import React from 'react';
+import 'react-native-url-polyfill/auto';
+import 'react-native-get-random-values';
 
 export default function TabLayout() {
   return (
@@ -8,15 +10,15 @@ export default function TabLayout() {
         headerShown: false,
       }}>
       <Stack.Screen
-        name="index"
+        name="home"
         options={{
           title: 'Home',
         }}
       />
       <Stack.Screen
-        name="explore"
+        name="calculate"
         options={{
-          title: 'Explore',
+          title: 'Calculate',
         }}
       />
             <Stack.Screen
