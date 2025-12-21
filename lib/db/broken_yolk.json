@@ -1,0 +1,88 @@
+{
+  "restaurant": "Broken Yolk Cafe",
+  "menu_url": "https://www.thebrokenyolkcafe.com/nutritional-info/",
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "prices": "Estimated typical in-store pricing",
+    "nutrition_source": "Official nutrition info with ranges"
+  },
+  "items": [
+    {
+      "name": "Special 1 – Two Eggs",
+      "price": 13.00,
+      "calories_kcal_low": 750,
+      "calories_kcal_high": 1130,
+      "protein_g_est": 29,
+      "fat_g_est": 28
+    },
+    {
+      "name": "Special 2 – Pancakes",
+      "price": 14.00,
+      "calories_kcal_low": 700,
+      "calories_kcal_high": 1030,
+      "protein_g_est": 24,
+      "fat_g_est": 33
+    },
+    {
+      "name": "Special 3 – French Toast",
+      "price": 14.00,
+      "calories_kcal_low": 700,
+      "calories_kcal_high": 1000,
+      "protein_g_est": 34,
+      "fat_g_est": 30
+    },
+    {
+      "name": "Special 4 – Biscuits & Gravy",
+      "price": 15.00,
+      "calories_kcal_low": 1160,
+      "calories_kcal_high": 1190,
+      "protein_g_est": 44,
+      "fat_g_est": 50
+    },
+    {
+      "name": "Iron Man Challenge",
+      "price": 39.99,
+      "calories_kcal": 3860,
+      "protein_g_est": 182,
+      "fat_g_est": 215
+    },
+    {
+      "name": "California Breakfast Burrito",
+      "price": 14.50,
+      "calories_kcal": 1480,
+      "protein_g_est": 45,
+      "fat_g_est": 70
+    },
+    {
+      "name": "Crunchy French Toast (Sweet) Slice",
+      "price": 13.50,
+      "calories_kcal": 1790,
+      "protein_g_est": 20,
+      "fat_g_est": 78
+    },
+    {
+      "name": "Wild West Burger (½ lb) w/ Bacon, Onion Rings & BBQ",
+      "price": 17.99,
+      "calories_kcal": 1430,
+      "protein_g_est": 50,
+      "fat_g_est": 90
+    },
+    {
+      "name": "Meat Lovers Omelet",
+      "price": 16.95,
+      "calories_kcal": 1420,
+      "protein_g_est": 80,
+      "fat_g_est": 110
+    },
+    {
+      "name": "Wellness Wrap",
+      "price": 11.95,
+      "calories_kcal": 550,
+      "protein_g_est": 33,
+      "fat_g_est": 19
+    }
+  ]
+}

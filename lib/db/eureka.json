@@ -1,0 +1,24 @@
+{
+  "restaurant": "Eureka!",
+  "menu_url": "https://eureka-restaurants.cdn.prismic.io/eureka-restaurants/9b6869cb-5418-4164-b692-c58d0e3d6633_EUREKA_AMERICAN_FOOD_MENU_ANALYSIS_BOOK__3.28.pdf",
+  "scraped_at": "2025-11-16T00:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_addons_excluded": true,
+    "prices": "Estimated typical dine-in pricing",
+    "nutrition_source": "Eureka! Menu Analysis PDF with full calorie/fat data"
+  },
+  "items": [
+    { "name": "Blackened Salmon Kale Caesar Salad", "price": 20.00, "calories_kcal": 783, "fat_g": 60, "protein_g": 45 },
+    { "name": "28 Day Dry Aged Bone Marrow Burger", "price": 19.75, "calories_kcal": 1248, "fat_g": 73, "protein_g": 48 },
+    { "name": "Double Stacked Cheeseburger", "price": 17.50, "calories_kcal": 1409, "fat_g": 87, "protein_g": 67 },
+    { "name": "Spicy Fried Chicken Sandwich", "price": 16.00, "calories_kcal": 1160, "fat_g": 56, "protein_g": 48 },
+    { "name": "Avocado Toast (Brunch)", "price": 11.50, "calories_kcal": 857, "fat_g": 47, "protein_g": 25 },
+    { "name": "Bread Pudding French Toast", "price": 14.00, "calories_kcal": 1097, "fat_g": 61, "protein_g": 62 },
+    { "name": "Hemp Bowl", "price": 16.50, "calories_kcal": 937, "fat_g": 55, "protein_g": 55 },
+    { "name": "Seared Ahi Salad", "price": 19.00, "calories_kcal": 561, "fat_g": 27, "protein_g": 50 },
+    { "name": "Truffle Cheese Fries (starter)", "price": 12.00, "calories_kcal": 864, "fat_g": 48, "protein_g": 16 },
+    { "name": "Furikake Fish & Chips", "price": 18.00, "calories_kcal": 828, "fat_g": 31, "protein_g": 40 }
+  ]
+}

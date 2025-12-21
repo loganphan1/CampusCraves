@@ -1,0 +1,94 @@
+{
+  "restaurant": "Panda Express",
+  "menu_url": "https://www.pandaexpress.com",  
+  "scraped_at": "2025-11-16T08:00:00Z",
+  "currency": "USD",
+  "assumptions": {
+    "beverages_excluded": true,
+    "sides_excluded": true,
+    "nutrition_source": "Panda Express nutrition listings such as fastfoodnutrition.org and other publicly shared data",
+    "prices": "Estimated typical U.S. menu pricing"
+  },
+  "items": [
+    {
+      "name": "Double Teriyaki Chicken Rice Plate",
+      "price": 12.00,
+      "calories_kcal": 840,
+      "protein_g": 66,
+      "fat_g": 20,
+      "notes": "Two portions of Teriyaki Chicken + Rice. Teriyaki chicken ~340 kcal for one portion. :contentReference[oaicite:1]{index=1}"
+    },
+    {
+      "name": "Double Orange Chicken Rice Plate",
+      "price": 12.00,
+      "calories_kcal": 1020,
+      "protein_g": 52,
+      "fat_g": 48,
+      "notes": "Two portions of Orange Chicken (~510 kcal each) + Rice. :contentReference[oaicite:2]{index=2}"
+    },
+    {
+      "name": "Grilled Teriyaki Chicken Rice Plate",
+      "price": 10.00,
+      "calories_kcal": 630,
+      "protein_g": 49,
+      "fat_g": 14,
+      "notes": "Single portion Teriyaki Chicken (~340 kcal) + rice estimate."
+    },
+    {
+      "name": "Orange Chicken Rice Plate",
+      "price": 10.00,
+      "calories_kcal": 770,
+      "protein_g": 39,
+      "fat_g": 32,
+      "notes": "One portion Orange Chicken (~510 kcal) + rice."
+    },
+    {
+      "name": "Kung Pao Chicken Rice Plate",
+      "price": 10.50,
+      "calories_kcal": 860,
+      "protein_g": 45,
+      "fat_g": 38,
+      "notes": "Kung Pao Chicken ~320 kcal plus rice estimate. :contentReference[oaicite:3]{index=3}"
+    },
+    {
+      "name": "Beijing Beef Rice Plate",
+      "price": 11.00,
+      "calories_kcal": 970,
+      "protein_g": 34,
+      "fat_g": 41,
+      "notes": "Beijing Beef ~480 kcal plus rice. :contentReference[oaicite:4]{index=4}"
+    },
+    {
+      "name": "Honey Sesame Chicken Breast Rice Plate",
+      "price": 10.50,
+      "calories_kcal": 830,
+      "protein_g": 47,
+      "fat_g": 30,
+      "notes": "Honey Sesame Chicken Breast ~340 kcal plus rice. :contentReference[oaicite:5]{index=5}"
+    },
+    {
+      "name": "Broccoli Beef Rice Plate",
+      "price": 10.00,
+      "calories_kcal": 670,
+      "protein_g": 44,
+      "fat_g": 22,
+      "notes": "Broccoli Beef ~150 kcal plus rice."
+    },
+    {
+      "name": "Mushroom Chicken Rice Plate",
+      "price": 10.00,
+      "calories_kcal": 740,
+      "protein_g": 39,
+      "fat_g": 26,
+      "notes": "Mushroom Chicken ~220 kcal plus rice. :contentReference[oaicite:6]{index=6}"
+    },
+    {
+      "name": "Teriyaki Chicken + Broccoli Beef Rice Plate",
+      "price": 11.00,
+      "calories_kcal": 920,
+      "protein_g": 55,
+      "fat_g": 24,
+      "notes": "Mix of Teirayki Chicken + Broccoli Beef estimates."
+    }
+  ]
+}
