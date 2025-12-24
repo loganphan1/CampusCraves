@@ -7,6 +7,12 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
       }}>
+      <Stack.Screen 
+        name = "(auth)/sign-in"
+        options= {{
+          title: 'Sign In'
+        }}
+      />
       <Stack.Screen
         name="index"
         options={{

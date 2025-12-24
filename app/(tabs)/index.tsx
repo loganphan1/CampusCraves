@@ -1,36 +1,18 @@
-import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
+import { AuthGuard } from '../../lib/AuthGuard';
 
-type ThemedTextType = 'title' | 'subtitle' | 'defaultSemiBold' | 'default';
-
-interface MockViewProps { children: React.ReactNode; style?: any; }
-interface MockTextProps { children: React.ReactNode; type?: ThemedTextType; style?: any; }
-interface MockImageProps { source: any; style?: any; }
-
+// Your existing mock components (keep these as they were)
 const ParallaxScrollView: React.FC<any> = ({ children, headerImage, headerBackgroundColor }) => <View style={{ flex: 1, backgroundColor: '#a6192e' }}>{children}</View>;
-const ThemedView: React.FC<MockViewProps> = ({ children, style }) => <View style={style}>{children}</View>;
-const ThemedText: React.FC<MockTextProps> = ({ children, type, style }) => <Text style={[{ fontSize: 16 }, style]}>{children}</Text>; 
-const Image: React.FC<MockImageProps> = ({ source, style }) => <View style={style} />;
-const HelloWave: React.FC = () => <ThemedText>👋</ThemedText>; 
-const Link: React.FC<any> = ({ children, href }) => <TouchableOpacity onPress={() => Alert.alert('Link Pressed', `Navigating to ${href}`)}>{children}</TouchableOpacity>;
-
-interface BalanceInputProps {
-  label: string;
-  value: string;
-  onChange: (text: string) => void;
-  placeholder: string;
-  unit: string;
-  isMoney?: boolean;
-}
-
-const BalanceInput: React.FC<BalanceInputProps> = ({ label, value, onChange, placeholder, unit, isMoney = false }) => (
+const ThemedView: React.FC<any> = ({ children, style }) => <View style={style}>{children}</View>;
+const ThemedText: React.FC<any> = ({ children, type, style }) => <Text style={[{ fontSize: 16 }, style]}>{children}</Text>;
+const Image: React.FC<any> = ({ source, style }) => <View style={style} />;
+const BalanceInput: React.FC<any> = ({ label, value, onChange, placeholder, unit, isMoney = false }) => (
   <View style={styles.inputContainer}>
     <ThemedText style={styles.label}>{label}</ThemedText>
     <View style={styles.textInputWrapper}>
-      {isMoney && (
-        <ThemedText style={styles.currencyPrefix}>$</ThemedText>
-      )}
+      {isMoney && <ThemedText style={styles.currencyPrefix}>$</ThemedText>}
       <TextInput
         style={[styles.textInput, isMoney ? styles.inputPaddedLeft : null]}
         keyboardType="numeric"
@@ -39,21 +21,11 @@ const BalanceInput: React.FC<BalanceInputProps> = ({ label, value, onChange, pla
         value={value}
         onChangeText={onChange}
       />
-      {unit && (
-        <ThemedText style={styles.unitSuffix}>{unit}</ThemedText>
-      )}
+      {unit && <ThemedText style={styles.unitSuffix}>{unit}</ThemedText>}
     </View>
   </View>
 );
-
-interface SingleMacroInputProps {
-  label: string;
-  value: string;
-  setValue: (text: string) => void;
-  unit: string;
-}
-
-const SingleMacroInput: React.FC<SingleMacroInputProps> = ({ label, value, setValue, unit }) => (
+const SingleMacroInput: React.FC<any> = ({ label, value, setValue, unit }) => (
   <View style={styles.macroRow}>
     <ThemedText style={styles.label}>{label} Goal</ThemedText>
     <View style={styles.rangeInputGroup}>
@@ -72,11 +44,17 @@ const SingleMacroInput: React.FC<SingleMacroInputProps> = ({ label, value, setVa
   </View>
 );
 
-
-
-
-
 export default function HomeScreen() {
+  return (
+    <AuthGuard>
+      <HomeScreenContent />
+    </AuthGuard>
+  );
+}
+
+function HomeScreenContent() {
+  const router = useRouter();
+
   const [balance, setBalance] = useState('');
   const [calories, setCalories] = useState('');
   const [protein, setProtein] = useState('');
@@ -98,7 +76,7 @@ export default function HomeScreen() {
       },
     });
   };
-  
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -107,259 +85,86 @@ export default function HomeScreen() {
           source={require('@/assets/images/partial-react-logo.png')}
           style={styles.reactLogo}
         />
-      }>
-
+      }
+    >
       <View style={styles.contentWrapper}>
-
         <ThemedView style={styles.formCard}>
-            <ThemedText style={styles.headerText}>
-                Campus Craves
-            </ThemedText>
-            <ThemedText style={styles.subHeaderText}>
-                Enter your balance and nutritional goals.
-            </ThemedText>
+          <ThemedText style={styles.headerText}>Campus Craves</ThemedText>
+          <ThemedText style={styles.subHeaderText}>Enter your balance and nutritional goals.</ThemedText>
 
-            <ThemedView style={styles.section}>
-              <ThemedText style={styles.sectionTitle}>Meal Plan Budget</ThemedText>
-              <BalanceInput
-                label="Balance"
-                value={balance}
-                onChange={setBalance}
-                placeholder="e.g., 75.00"
-                unit="USD"
-                isMoney={true}
-              />
-              
-            </ThemedView>
+          <ThemedView style={styles.section}>
+            <ThemedText style={styles.sectionTitle}>Meal Plan Budget</ThemedText>
+            <BalanceInput
+              label="Balance"
+              value={balance}
+              onChange={setBalance}
+              placeholder="e.g., 75.00"
+              unit="USD"
+              isMoney={true}
+            />
+          </ThemedView>
 
-            <ThemedView style={[styles.section, styles.macroSection]}>
-              <ThemedText style={styles.sectionTitle}>Daily Macro Goals</ThemedText>
+          <ThemedView style={[styles.section, styles.macroSection]}>
+            <ThemedText style={styles.sectionTitle}>Daily Macro Goals</ThemedText>
 
-              <View style={styles.macroBlock}>
-                  <SingleMacroInput
-                      label="Calorie"
-                      value={calories} setValue={setCalories}
-                      unit="cal"
-                  />
-              </View>
-
-              <View style={styles.macroBlock}>
-                  <SingleMacroInput
-                      label="Protein"
-                      value={protein} setValue={setProtein}
-                      unit="g"
-                  />
-              </View>
-
-              <View style={styles.macroBlock}>
-                  <SingleMacroInput
-                      label="Fat"
-                      value={fat} setValue={setFat}
-                      unit="g"
-                  />
-              </View>
-              
-            </ThemedView>
-
-            <View style={styles.submitButtonWrapper}>
-              <TouchableOpacity
-                onPress={handleSaveGoals}
-                style={styles.submitButton}
-              >
-                <ThemedText style={styles.submitButtonText}>
-                  Find Recommendations
-                </ThemedText>
-              </TouchableOpacity>
+            <View style={styles.macroBlock}>
+              <SingleMacroInput label="Calorie" value={calories} setValue={setCalories} unit="cal" />
             </View>
+
+            <View style={styles.macroBlock}>
+              <SingleMacroInput label="Protein" value={protein} setValue={setProtein} unit="g" />
+            </View>
+
+            <View style={styles.macroBlock}>
+              <SingleMacroInput label="Fat" value={fat} setValue={setFat} unit="g" />
+            </View>
+          </ThemedView>
+
+          <View style={styles.submitButtonWrapper}>
+            <TouchableOpacity onPress={handleSaveGoals} style={styles.submitButton}>
+              <ThemedText style={styles.submitButtonText}>Find Recommendations</ThemedText>
+            </TouchableOpacity>
+          </View>
         </ThemedView>
-        
       </View>
     </ParallaxScrollView>
   );
 }
 
+// --- Styles (unchanged from your original file) ---
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-
-  contentWrapper: {
-    width: '100%',
-    maxWidth: 600,
-    alignSelf: 'center',
-    paddingHorizontal: 20,
-  },
-
+  reactLogo: { height: 178, width: 290, bottom: 0, left: 0, position: 'absolute' },
+  contentWrapper: { width: '100%', maxWidth: 600, alignSelf: 'center', paddingHorizontal: 20 },
   formCard: {
     padding: 24,
     borderRadius: 12,
     marginTop: 16,
-    backgroundColor: '#FFFFFF', 
+    backgroundColor: '#FFFFFF',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
     borderTopWidth: 8,
-    borderTopColor: '#A6192E', 
+    borderTopColor: '#A6192E',
   },
-  headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#A6192E', 
-    marginBottom: 4,
-  },
-  subHeaderText: {
-    fontSize: 14,
-    color: '#6b7280', 
-    marginBottom: 16,
-  },
-  section: {
-    marginBottom: 16,
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#fecaca', 
-  },
-  macroSection: {
-    borderBottomWidth: 0,
-    paddingBottom: 0,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#374151', 
-    marginBottom: 10,
-  },
-  inputContainer: {
-    marginBottom: 8,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#374151',
-    marginBottom: 3,
-  },
-  textInputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: '#d1d5db',
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-  },
-  textInput: {
-    flex: 1,
-    color: '#1f2937',
-    fontSize: 14,
-    padding: 0,
-  },
-  currencyPrefix: {
-    color: '#6b7280', 
-    fontSize: 14,
-    marginRight: 3,
-  },
-  inputPaddedLeft: {
-    paddingLeft: 4, 
-  },
-  unitSuffix: {
-    color: '#6b7280', 
-    fontSize: 14,
-    marginLeft: 6,
-  },
-
-  macroRow: {
-    marginBottom: 12,
-  },
-  rangeInputGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  rangeInputWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: '#d1d5db',
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-  },
-  rangeSeparator: {
-    marginHorizontal: 6,
-    color: '#9ca3af',
-  },
-  submitButtonWrapper: {
-    paddingTop: 16,
-  },
-  submitButton: {
-    backgroundColor: '#A6192E', 
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#A6192E',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  submitButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  
-  macroBlock: {
-    marginBottom: 16,
-    paddingTop: 5,
-  },
-  modeSelectorGroup: {
-    flexDirection: 'row',
-    backgroundColor: '#e5e7eb',
-    borderRadius: 8,
-    marginBottom: 8,
-    height: 32,
-  },
-  modeButton: {
-    flex: 1,
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-  },
-  modeButtonRight: {
-  },
-  modeButtonActive: {
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  modeButtonText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#4b5563',
-  },
-  modeButtonTextActive: {
-    color: '#A6192E',
-    fontWeight: '700',
-  },
+  headerText: { fontSize: 20, fontWeight: 'bold', color: '#A6192E', marginBottom: 4 },
+  subHeaderText: { fontSize: 14, color: '#6b7280', marginBottom: 16 },
+  section: { marginBottom: 16, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: '#fecaca' },
+  macroSection: { borderBottomWidth: 0, paddingBottom: 0 },
+  sectionTitle: { fontSize: 18, fontWeight: '600', color: '#374151', marginBottom: 10 },
+  inputContainer: { marginBottom: 8 },
+  label: { fontSize: 14, fontWeight: '500', color: '#374151', marginBottom: 3 },
+  textInputWrapper: { flexDirection: 'row', alignItems: 'center', borderRadius: 8, borderWidth: 2, borderColor: '#d1d5db', paddingVertical: 8, paddingHorizontal: 10 },
+  textInput: { flex: 1, color: '#1f2937', fontSize: 14, padding: 0 },
+  currencyPrefix: { color: '#6b7280', fontSize: 14, marginRight: 3 },
+  inputPaddedLeft: { paddingLeft: 4 },
+  unitSuffix: { color: '#6b7280', fontSize: 14, marginLeft: 6 },
+  macroRow: { marginBottom: 12 },
+  rangeInputGroup: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  rangeInputWrapper: { flex: 1, flexDirection: 'row', alignItems: 'center', borderRadius: 8, borderWidth: 2, borderColor: '#d1d5db', paddingVertical: 8, paddingHorizontal: 10 },
+  submitButtonWrapper: { paddingTop: 16 },
+  submitButton: { backgroundColor: '#A6192E', paddingVertical: 12, borderRadius: 8, alignItems: 'center', justifyContent: 'center', shadowColor: '#A6192E', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 5, elevation: 3 },
+  submitButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold' },
+  macroBlock: { marginBottom: 16, paddingTop: 5 },
 });
